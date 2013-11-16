@@ -1072,7 +1072,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             for(int i=0;i<1919;i++){//sono salvate le prime 1919 generate
 		if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
 	    }
-            diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0, 4,false, &smeared_pho_energy[0], true);
+            diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0,4,false, &smeared_pho_energy[0], true);
             if(counter_photons_higgs==2 && diphotonLoose_id!=-1){
                 Looseevent = true;                                                                                                       
             }
@@ -1082,9 +1082,9 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             for(int i=0;i<1919;i++){
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
-	    diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true);
+	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
 
-	    if((counter_photons_higgs==2) && (diphotonTprimehad_id!=-1)){
+	    if(counter_photons_higgs==2){
                     Tprimehadevent = TprimehadronicTag2012(l, diphotonTprimehad_id, &smeared_pho_energy[0]);
 	    }
         }
@@ -1093,9 +1093,9 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             for(int i=0;i<1919;i++){
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
-	    diphotonTprimelep_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut, subleadEtTprimelepCut, 4,false, &smeared\
-							  _pho_energy[0], true);
-	    if(counter_photons_higgs==2 && diphotonTprimelep_id!=-1){
+	    //diphotonTprimelep_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut, subleadEtTprimelepCut, 4,false, &smeared \
+		//					  _pho_energy[0], true);=> in PhotonAnalysis
+	    if(counter_photons_higgs==2){
 		Tprimelepevent = TprimeleptonicTag2012(l, diphotonTprimelep_id, &smeared_pho_energy[0]);
 
 		//if(Tprimelepevent){
