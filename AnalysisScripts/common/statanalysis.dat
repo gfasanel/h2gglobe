@@ -58,5 +58,10 @@ effPhotonNCat=6
 efficiencyFile=aux/sig_reweighing_legacy_run2012ABCD_cutbased_v3.root
 
 #bkgPolOrderByCat=5,5,5,5,4,4,3,3,3
-#tth and vh added -10,2,3,3
-bkgPolOrderByCat=5,5,5,5,4,4,3,3,3,-10,2,3
+#tth and vh added -10,2,3,3 #micheli
+#bkgPolOrderByCat=5,5,5,5,4,4,3,3,3,-10,2,3
+#Inclusive, TTh, Tprime
+bkgPolOrderByCat=5,5,5,5,-10,2,-10,2
+
+#Inclusive, TTH, Tprime, Loose ##La loose va accesa solo per le efficienze
+#bkgPolOrderByCat=5,5,5,5,-10,2,-10,2,2
