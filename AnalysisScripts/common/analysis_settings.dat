@@ -139,6 +139,7 @@ doEcorrectionSmear=1
 doEcorrectionSyst=1
 
 ## energy scale adjustement and errors
+###funzionante su dati, TTH
 scale_offset_file=jan22rereco_8TeV/energy_scale_offsets_rd_mc.dat
 scale_offset_error_file=energy_scale_errors.dat
 
@@ -148,9 +149,13 @@ scale_offset_corr_error_file=energy_scale_corr_errors.dat
 
 ## additional MC smearing
 ## smearing_file=jan22rereco_8TeV/smearing_sigma_and_errors_rd_mc.dat
+###funzionante su dati, TTH
 smearing_file=jan22rereco_8TeV/smearing_sigma_and_errors_stocastic_rd_mc.dat
+
 ## smearing correction for BDT input
+###funzionante su dati, TTH
 mass_resol_file=jan22rereco_8TeV/smearing_sigma_and_errors_rd_mc.dat
+
 
 ## uncorrelated part of the uncertainties
 splitEresolSyst=0
