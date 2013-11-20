@@ -93,6 +93,9 @@ class PhotonAnalysis : public BaseAnalysis
     bool includeVHhadBtag;
     bool includeTTHlep;
     bool includeTTHhad;
+    bool includeTprimelep;
+    bool includeTprimehad;
+    bool includeLoose;
     bool includeVHlep;
     bool includeVHlepPlusMet;
     int nElectronCategories;
@@ -111,6 +114,8 @@ class PhotonAnalysis : public BaseAnalysis
     float leadEtVHhadBtagCut;
     float leadEtTTHlepCut;
     float leadEtTTHhadCut;
+    float leadEtTprimelepCut;
+    float leadEtTprimehadCut;
     float leadEtVHlepCut;
     float leadEtVHmetCut;  //met at analysis step
     float subleadEtCut;
@@ -121,6 +126,8 @@ class PhotonAnalysis : public BaseAnalysis
     float subleadEtVHmetCut;  //met at analysis step
     float subleadEtTTHhadCut;
     float subleadEtTTHlepCut;
+    float subleadEtTprimehadCut;
+    float subleadEtTprimelepCut;
     int nVBFEtaCategories;
     int nVHhadEtaCategories;
     int nVBFDijetJetCategories;
@@ -477,6 +484,13 @@ class PhotonAnalysis : public BaseAnalysis
     bool TTHleptonicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
     //TTH hadronic category
     bool TTHhadronicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0, bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+
+    //Tprime leptonic
+    bool TprimeleptonicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+    //Tprime Hadronic
+    bool TprimehadronicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0, bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+    //Esiste anche una categoria Loose, ma tanto e' sempre true
+
     //only one tth category for 7 TeV
     bool TTHTag7TeV(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
 
