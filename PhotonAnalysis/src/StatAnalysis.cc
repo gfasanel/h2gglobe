@@ -363,8 +363,9 @@ void StatAnalysis::Init(LoopAll& l)
 
     l.rooContainer->AddConstant("XSBR_TprimeM400_120",0.00524638);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM450_120",0.00253536);//GIUSEPPE
-    l.rooContainer->AddConstant("XSBR_TprimeM500_120",0.00180348);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_TprimeM500_120",0.00130188);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM550_120",0.0006954);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_TprimeM600_120",0.0003876);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM700_120",0.000129732);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM800_120",0.000047424);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM900_120",0.0000184452);// GIUSEPPE 
@@ -1088,12 +1089,11 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 		//		cout<<"pdgid"<<l.gp_pdgid[i]<<endl;
 		//cout<<"status"<<l.gp_status[i]<<endl;
 		//cout<<"mother"<<l.gp_pdgid[l.gp_mother[i]]<<endl;
-                if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){cout<<"counter_fotoni"<<endl;counter_photons_higgs++;}
+                if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
 	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
 
 	    if(counter_photons_higgs==2){
-		cout<<"sto per chiamare tag adronico"<<endl;
                     Tprimehadevent = TprimehadronicTag2012(l, diphotonTprimehad_id, &smeared_pho_energy[0]);
 	    }
         }
