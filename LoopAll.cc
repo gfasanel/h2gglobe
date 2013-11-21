@@ -995,8 +995,12 @@ void LoopAll::WriteCounters() {
   FILE *file;
   TString s1 = msName;
   file = fopen(s1, "w");
-
-  // FIXME size
+  /*GIUSEPPE COMMENTATO, ALTRIMENTI CRASHA
+  // Fixme size
+  cout<<"Qui ha deciso di crashare"<<endl;
+  cout<<"File che viene aperto "<<s1<<endl;
+  // File che viene aperto histograms_CMS-HGG_Tprime_5.csv
+  cout<<"counterContainer[0].size() "<<counterContainer[0].size()<<endl;
   for (Int_t var=0; var<counterContainer[0].size(); var++) {
     fprintf(file, ",Sample,Counter Name,Categories,");
     Int_t cats = counterContainer[0].ncat(var);
@@ -1057,7 +1061,7 @@ void LoopAll::WriteCounters() {
 
     fprintf(file, "\n\n\n\n");
   }
-
+  */
   fclose(file);
 }
 
