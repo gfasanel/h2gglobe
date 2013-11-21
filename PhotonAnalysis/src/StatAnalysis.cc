@@ -574,6 +574,7 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM450_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM500_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM550_mass_m%d",sig),nDataBins);//GIUSEPPE
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM600_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d",sig),nDataBins);//GIUSEPPE
@@ -589,6 +590,7 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM450_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM500_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM550_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM600_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
@@ -605,6 +607,7 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM450_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM500_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM550_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM600_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
@@ -659,6 +662,7 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM450_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM500_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM550_mass_m%d",sig),-1);//GIUSEPPE
+		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM600_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d",sig),-1);//GIUSEPPE
