@@ -4587,9 +4587,11 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
         diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut,subleadEtTprimehadCut, 4,
                                                     false, &smeared_pho_energy[0], true);
         cout<<"dentro Tprime hadronic tag"<<endl;
+        cout<<"leadEtTprimehadCut"<<leadEtTprimehadCut<<endl;
+        cout<<"subleadEtTprimehadCut"<<subleadEtTprimehadCut<<endl;
     bool tag = false;
     if(diphotonTprimehad_id==-1) return tag;//e' stato calcolato prima, si puo togliere
-
+    cout<<"diphotonTprimehad!=-1!"<<endl;
     static std::vector<unsigned char> id_flags;
     if( jetid_flags == 0 ) {
         switchJetIdVertex( l, l.dipho_vtxind[diphotonTprimehad_id] );
@@ -4660,6 +4662,13 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
     }//jet loop
 
         Ht+=lead_p4.Pt() + sublead_p4.Pt();
+        cout<<"njets "<<njets<<endl;
+        cout<<"Ht "<<Ht<<endl;
+        cout<<"lead pt "<<lead_p4.Pt()<<endl;
+        cout<<"sublead_p4 "<<sublead_p4.Pt()<<endl;
+        cout<<"njets_btagloose "<<njets_btagloose<<endl; 
+        cout<<"njets_btagmedium "<<njets_btagmedium<<endl; 
+
         bool isBtaggedMedium;
         if(!removeBtagtth){//ttH??Penso vada bene=>removeBtagtth=>false                                                                                         
         isBtaggedMedium=(njets_btagmedium>0);
@@ -4671,11 +4680,17 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
         bool hasPassedJetSelection= (njets>=nJets_thresh && njets_btagloose>=nbJets_thresh && Ht > Ht_thresh);//REAL selection                                
         bool hasPassedPhotonSelection= (/*lead_p4.Pt()>ptLeadTrig_thresh && sublead_p4.Pt()> ptSubleadTrig_thresh &&*/ lead_p4.Pt()> ptLead_thresh && sublead_p4.Pt()>ptSublead_thresh);
         //che superino i trigger e' ovvio, dati i valori dei tagli                                                                                            
+        cout<<"nJets_thresh "<<nJets_thresh<<endl;
+        cout<<"nbJets_thresh "<<nbJets_thresh<<endl;
+        cout<<"Ht_thresh "<<Ht_thresh<<endl;
+        cout<<"hasPassedJetSelection "<<hasPassedJetSelection<<endl;
+        cout<<"hasPassedPhotonSelection "<<hasPassedPhotonSelection<<endl;
+        cout<<"hasPassedJetSelection && hasPassedPhotonSelection "<<(hasPassedJetSelection && hasPassedPhotonSelection)<<endl;
+        if(hasPassedJetSelection && hasPassedPhotonSelection){tag=true;}
 
-        
-        if(hasPassedJetSelection && hasPassedPhotonSelection)tag=true;
-
-        if(tag=true){cout<< "tag true per Tprime had"<<endl;}
+        if(tag==true){cout<< "tag true per Tprime had"<<endl;
+        int foo;
+        cin>>foo;}
         if (PADEBUG && tag==true) cout<<"tagged Tprime had"<<endl;
         return tag;
     }
@@ -4887,7 +4902,7 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
         bool hasPassedPhotonSelection= (lead_p4.Pt()>ptLeadTrig_thresh && sublead_p4.Pt()> ptSubleadTrig_thresh && lead_p4.Pt()> ptLead_thresh && sublead_p4.Pt()>ptSublead_thresh);
 
         if(hasPassedJetSelection && hasPassedPhotonSelection)tag=true;
-        if(tag=true){cout<<"tag true per Tprime leptonic"<<endl;}
+        if(tag==true){cout<<"tag true per Tprime leptonic"<<endl;}
         return tag;
 }
 
@@ -5001,7 +5016,7 @@ std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium 
 
     //      if(tag==true)  cout<<"tagged TTHhad , event"<<l.event<<"run "<<l.run<<" lumi "<<l.lumis<<endl;
 
-
+        if(tag==true){cout<< "tag true per TTH had"<<endl;}
     return tag;
 }
 
@@ -5261,7 +5276,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
 
     if (PADEBUG && tag==true) cout<<"tagged TTHlep"<<endl;
     //    if(tag==true)  cout<<"tagged TTHhad , event"<<l.event<<"run "<<l.run<<" lumi "<<l.lumis<<endl;
-    
+            if(tag==true){cout<< "tag true per TTH lep"<<endl;}
     return tag;
 }
 
