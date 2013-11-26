@@ -56,12 +56,13 @@ void Normalization_8TeV::FillSignalTypes(){
   SignalTypeMap[-100]=std::make_pair<TString,double>("TprimeM400",120);
   SignalTypeMap[-15]=std::make_pair<TString,double>("TprimeM450",120);
   SignalTypeMap[-16]=std::make_pair<TString,double>("TprimeM500",120);
-  SignalTypeMap[-17]=std::make_pair<TString,double>("TprimeM550",120);//GIUSEPPE                                                                            
+  SignalTypeMap[-17]=std::make_pair<TString,double>("TprimeM550",120);//GIUSEPPE 
+  SignalTypeMap[-73]=std::make_pair<TString,double>("TprimeM600",120);//GIUSEPPE                                                                           
   SignalTypeMap[-18]=std::make_pair<TString,double>("TprimeM700",120);
   SignalTypeMap[-19]=std::make_pair<TString,double>("TprimeM800",120);
   SignalTypeMap[-20]=std::make_pair<TString,double>("TprimeM900",120);//GIUSEPPE 
 
-  SignalTypeMap[-73]=std::make_pair<TString,double>("ggh",124);
+  //  SignalTypeMap[-73]=std::make_pair<TString,double>("ggh",124);
   SignalTypeMap[-74]=std::make_pair<TString,double>("vbf",124);
   SignalTypeMap[-76]=std::make_pair<TString,double>("wzh",124);
   SignalTypeMap[-75]=std::make_pair<TString,double>("tth",124);
