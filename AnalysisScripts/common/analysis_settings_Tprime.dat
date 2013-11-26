@@ -72,9 +72,12 @@ drSC_lep=0.5
 drGsf_lep=1.
 doApplyEleVeto=0
 
-## Loose tag
+## Loose tag #va accesa solo per fare le efficienze
 includeLoose=0
-        
+
+## isData_ttH
+isData_ttH=0
+      
 ## Hadronic V tag
 includeVHhad=0 
 #1 con micheli
