@@ -72,8 +72,11 @@ drSC_lep=0.5
 drGsf_lep=1.
 doApplyEleVeto=0
 
-## Loose tag
+## Loose tag# Lasciala sempre spenta, tanto sono dati questi
 includeLoose=0
+
+##Dico se sono Dati o TTH 
+isData_ttH=1
         
 ## Hadronic V tag
 includeVHhad=0 
