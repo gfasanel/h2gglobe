@@ -63,5 +63,5 @@ efficiencyFile=aux/sig_reweighing_legacy_run2012ABCD_cutbased_v3.root
 #Inclusive, TTh, Tprime
 bkgPolOrderByCat=5,5,5,5,-10,2,-10,2
 
-#Inclusive, TTH, Tprime, Loose ##La loose va accesa solo per le efficienze
+#Inclusive, TTH, Tprime, Loose ##La loose va accesa solo per le efficienze ##NB Per accendere e spegnere la loose devi cambiare analysis_settings_Tprime.dat NON analysis_settings.dat (che sarebbe per i dati)
 #bkgPolOrderByCat=5,5,5,5,-10,2,-10,2,2
