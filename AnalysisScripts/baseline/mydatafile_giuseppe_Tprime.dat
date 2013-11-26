@@ -1,0 +1,51 @@
+intL=19715. histfile=/afs/cern.ch/user/g/gfasanel/scratch1/GLOBE_3/CMSSW_6_1_1/src/h2gglobe_devel/AnalysisScripts/myTprime/%(label)s/CMS-HGG_Tprime.root output=eventsList.txt
+
+
+#
+# MC
+#
+
+#Tprime M400
+#split typ=-100 ind=4 draw=1   Nam=Tprime_m400_8TeV   CaDir=/store/group/phys_higgs/pandolf/test/h2gglobe/reduced/TT/mc/TT/TT-htht-aaX.400_LHE   red=0 lum=1000000.0   xsec=-1.0   kfac=1.000000   scal=1.000000
+
+#Tprime M450
+#split typ=-15 ind=4 draw=1   Nam=Tprime_m450_8TeV   CaDir=/store/group/phys_higgs/pandolf/test/h2gglobe/reduced/TT/mc/TT/TT-htht-aaX.450_LHE   red=0 lum=1000000.0   xsec=-1.0   kfac=1.000000   scal=1.000000
+
+#Tprime M500
+split typ=-16 ind=4 Nam=Tprime_m500_8TeV CaDir=/store/group/phys_higgs/cmshgg/reduced/tPrime_analysis/TPrimeSamples_20131118/mc/Tprime/TprimeTprimeToTHTH_HToGammaGamma_M-500_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V19-v1 red=0 lum=1000000.0   xsec=-1.0  kfac=1.000000   scal=1.000000
+
+#Tprime M550
+#split typ=-17 ind=4 draw=1   Nam=Tprime_m550_8TeV   CaDir=/store/group/phys_higgs/pandolf/test/h2gglobe/reduced/TT/mc/TT/TT-htht-aaX.550_LHE   red=0 lum=1000000.0   xsec=-1.0   kfac=1.000000   scal=1.000000
+
+#Tprime M600
+split typ=-73 ind=4 Nam=Tprime_m700_8TeV CaDir=/store/group/phys_higgs/cmshgg/reduced/tPrime_analysis/TPrimeSamples_20131118/mc/Tprime/TprimeTprimeToTHTH_HToGammaGamma_M-600_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V19-v1 red=0 lum=1000000.0   xsec=-1.0  kfac=1.000000   scal=1.000000
+
+#Tprime M700
+split typ=-18 ind=4 Nam=Tprime_m700_8TeV CaDir=/store/group/phys_higgs/cmshgg/reduced/tPrime_analysis/TPrimeSamples_20131118/mc/Tprime/TprimeTprimeToTHTH_HToGammaGamma_M-700_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V19-v1 red=0 lum=1000000.0   xsec=-1.0  kfac=1.000000   scal=1.000000
+
+#Tprime M800
+split typ=-19 ind=4 Nam=Tprime_m800_8TeV CaDir=/store/group/phys_higgs/cmshgg/reduced/tPrime_analysis/TPrimeSamples_20131118/mc/Tprime/TprimeTprimeToTHTH_HToGammaGamma_M-800_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V19-v1 red=0 lum=1000000.0   xsec=-1.0  kfac=1.000000   scal=1.000000
+
+#TPrime M900
+split typ=-20 ind=4 Nam=Tprime_m900_8TeV CaDir=/store/group/phys_higgs/cmshgg/reduced/tPrime_analysis/TPrimeSamples_20131118/mc/Tprime/TprimeTprimeToTHTH_HToGammaGamma_M-900_TuneZ2star_8TeV-madgraph_Summer12_DR53X-PU_S10_START53_V19-v1 red=0 lum=1000000.0   xsec=-1.0  kfac=1.000000   scal=1.000000
+
+
+
+
+
+
+
+
+#
+# Branches to use
+#
+
+inputBranches minimal_analysis_input_Tprime.dat
+inputBranches minimal_statanalysis_input.dat
+inputBranches minimal_leptmetanalysis_input.dat
+inputBranches TTVH_analysis_input.dat
+
+treevariables common/unbinned_datacard_trees.dat
+cuts jetanalysis/cuts_vbfcutb.dat
+
+analyzer StatAnalysis photonanalysis.dat analysis_settings_Tprime.dat statanalysis.dat jetanalysis/cutbvbftag.dat saveDatacardTrees_=0 dumpAscii=1 dumpMcAscii=0 scaleClusterShapes=1 scaleR9Only=1 scaleR9ForCicOnly=1
