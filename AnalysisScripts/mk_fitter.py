@@ -282,14 +282,14 @@ if __name__  == "__main__":
 			jobfiles += "%s_%d.%s " % ( cfg.outfile[0], i, cfg.outfile[1] )
 			if not options.combine:
 				jobfiles += "%s_%d.json " % ( cfg.histfile[0], i )
-				jobfiles += "histograms_%s_%d.csv " % ( cfg.histfile[0], i )
+				#jobfiles += "histograms_%s_%d.csv " % ( cfg.histfile[0], i )
 		else:
 			for fn in ["","histograms_"]+options.addfiles:
 				jobfiles += "%s%s.%s:%s%s_%d.%s " % ( fn, cfg.histfile[0], cfg.histfile[1], fn, cfg.histfile[0], i, cfg.histfile[1] )
 			jobfiles += "%s.%s:%s_%d.%s " % ( cfg.outfile[0], cfg.outfile[1], cfg.outfile[0], i, cfg.outfile[1] )
 			if not options.combine:
 				jobfiles += "%s.json:%s_%d.json " % ( cfg.histfile[0], cfg.histfile[0], i )
-				jobfiles += "histograms_%s.csv:histograms_%s_%d.csv " % ( cfg.histfile[0], cfg.histfile[0], i )
+				#jobfiles += "histograms_%s.csv:histograms_%s_%d.csv " % ( cfg.histfile[0], cfg.histfile[0], i )
 		
 		f.write("""
 filesToCopy=\"%(files)s\"

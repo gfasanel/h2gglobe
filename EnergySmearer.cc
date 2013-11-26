@@ -209,49 +209,65 @@ bool EnergySmearer::smearPhoton(PhotonReducedInfo & aPho, float & weight, int ru
 
     /////////////////////// apply MC-based photon energy corrections ///////////////////////////////////////////
     if (  doCorrections_ ) {
-	// corrEnergy is the corrected photon energy
-	newEnergy = aPho.corrEnergy() + syst_shift * myParameters_.corrRelErr * (aPho.corrEnergy() - aPho.energy());
+      //      cout<<"in doCorrections_"<<endl;
+      // corrEnergy is the corrected photon energy
+      //cout<<"doCorrections_"<<endl;
+      //cout<<"aPho.energy()"<<aPho.energy()<<endl;
+      //cout<<"aPho.corrEnergy()"<<aPho.corrEnergy()<<endl;
+      //cout<<"syst_shift"<<syst_shift<<endl;
+      //cout<<"myParameters_.corrRelErr"<<myParameters_.corrRelErr<<endl;
+      //cout<<"(aPho.corrEnergy -apho.energy"<<aPho.corrEnergy()-aPho.energy()<<endl;
+      newEnergy = aPho.corrEnergy() + syst_shift * myParameters_.corrRelErr * (aPho.corrEnergy() - aPho.energy());
+      //cout<<"newEnergy"<<newEnergy<<endl;
+      //      if(newEnergy==0){//mio, per farlo andare avanti
+      //	newEnergy=aPho.energy();//mio
+      //}//mio
     } else if ( doRegressionSmear_){
-	// leave energy alone, bus change resolution (10% uncertainty on sigmaE/E scaling)
-        float newSigma;
-	if (fabs(aPho.caloPosition().Eta())<1.5){
-	    newSigma = aPho.rawCorrEnergyErr()*(1.+syst_shift*0.1);
-	} else {
-	    newSigma = aPho.rawCorrEnergyErr()*(1.+syst_shift*0.1);
+      // leave energy alone, bus change resolution (10% uncertainty on sigmaE/E scaling)
+      float newSigma;
+      if (fabs(aPho.caloPosition().Eta())<1.5){
+	newSigma = aPho.rawCorrEnergyErr()*(1.+syst_shift*0.1);
+      } else {
+	newSigma = aPho.rawCorrEnergyErr()*(1.+syst_shift*0.1);
+      }
+      aPho.setCorrEnergyErr(newSigma);
+    } else {//apre a
+      //cout<<"in else"<<endl;
+      if( scaleOrSmear_ ) {
+	float scale_offset   = getScaleOffset(run, category);
+	
+	scale_offset   += syst_shift * myParameters_.scale_offset_error.find(category)->second;
+	newEnergy *=  scale_offset;
+	if( syst_shift == 0. ) {
+	  aPho.cacheVal( smearerId(), this, scale_offset );
 	}
-	aPho.setCorrEnergyErr(newSigma);
-    } else {
-	if( scaleOrSmear_ ) {
-	    float scale_offset   = getScaleOffset(run, category);
-
-	    scale_offset   += syst_shift * myParameters_.scale_offset_error.find(category)->second;
-	    newEnergy *=  scale_offset;
-	    if( syst_shift == 0. ) {
-		    aPho.cacheVal( smearerId(), this, scale_offset );
-	    }
-	} else {
-	  float smearing_sigma = getSmearingSigma( myParameters_, category, aPho.energy(), 
-						   aPho.caloPosition().Eta(), syst_shift );
+      } else {
+	//cout<<"in else smearing_sigma"<<endl;
+	float smearing_sigma = getSmearingSigma( myParameters_, category, aPho.energy(), 
+						 aPho.caloPosition().Eta(), syst_shift );
 	  
-	  float smear = 1.;
-	  if( smearing_sigma > 0. ) {
-	    // deterministic smearing
-	    int nsigmas = round(syst_shift);
-	    if( nsigmas < 0 ) nsigmas = 1-nsigmas;
-	    if( nsigmas < aPho.nSmearingSeeds() ) {
-	      rgen_->SetSeed( baseSeed_+aPho.smearingSeed(nsigmas) );
-	    }
-	    smear = rgen_->Gaus(1.,smearing_sigma) ;
+	float smear = 1.;
+	if( smearing_sigma > 0. ) {
+	  // deterministic smearing
+	  int nsigmas = round(syst_shift);
+	  if( nsigmas < 0 ) nsigmas = 1-nsigmas;
+	  if( nsigmas < aPho.nSmearingSeeds() ) {
+	    rgen_->SetSeed( baseSeed_+aPho.smearingSeed(nsigmas) );
 	  }
-	  if( syst_shift == 0. ) {
-	    aPho.cacheVal( smearerId(), this, smear );
-	  }
-	  newEnergy *=  smear;
+	  smear = rgen_->Gaus(1.,smearing_sigma) ;
 	}
-    }
+	if( syst_shift == 0. ) {
+	  aPho.cacheVal( smearerId(), this, smear );
+	}
+	//cout<<"fattore di smearing"<<smear<<endl;
+	//cout<<"old energy"<<newEnergy<<endl;
+	newEnergy *=  smear;
+	//cout<<"new energy"<<newEnergy<<endl;
+      }
+    }//chiude a
     if( newEnergy == 0. ) {
-	std::cerr << "New energy is 0.: aborting " << this->name() << std::endl;
-	assert( newEnergy != 0. );
+      std::cerr << "New energy is 0.: aborting " << this->name() << std::endl;
+      assert( newEnergy != 0. );
     }
     aPho.setEnergy(newEnergy);
     

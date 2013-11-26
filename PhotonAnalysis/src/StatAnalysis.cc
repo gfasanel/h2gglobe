@@ -188,6 +188,7 @@ void StatAnalysis::Init(LoopAll& l)
     nTprimehadCategories =((int)includeTprimehad);//GIUSEPPE
     nTprimelepCategories =((int)includeTprimelep);//GIUSEPPE
     nLooseCategories =((int)includeLoose);//GIUSEPPE 
+    cout<<"nLooseCategories "<<nLooseCategories<<endl;
 
     if(includeVHlep){
         nVHlepCategories = nElectronCategories + nMuonCategories;
@@ -198,6 +199,7 @@ void StatAnalysis::Init(LoopAll& l)
     nVHmetCategories = (int)includeVHmet;  //met at analysis step
 
     nCategories_=(nInclusiveCategories_+nVBFCategories+nVHlepCategories+nVHmetCategories+nVHhadCategories+nVHhadBtagCategories+nTTHhadCategories+nTTHlepCategories + nTprimehadCategories+nTprimelepCategories+nLooseCategories);//GIUSEPPE 
+    cout<<"nCategories_ "<<nCategories_<<endl;
     //    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHhadCategories+nVHlepCategories+nVHmetCategories);  //met at analysis step
     //    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHhadCategories+nVHlepCategories);
     if (doSpinAnalysis) nCategories_*=nCosThetaCategories;
@@ -415,6 +417,7 @@ void StatAnalysis::buildBkgModel(LoopAll& l, const std::string & postfix)
 
     // sanity check
     if( bkgPolOrderByCat.size() != nCategories_ ) {
+	cout<<"bkgPloOrderByCat.size() "<<bkgPolOrderByCat.size()<<" Number of categories "<<nCategories_<<endl;
         std::cout << "Number of categories not consistent with specified background model " << nCategories_ << " " << bkgPolOrderByCat.size() << std::endl;
         assert( 0 );
     }
@@ -1082,7 +1085,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 		if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
 	    }
             diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0,4,false, &smeared_pho_energy[0], true);
-            if(counter_photons_higgs==2 && diphotonLoose_id!=-1){
+            if((counter_photons_higgs==2||isData_ttH==1) && diphotonLoose_id!=-1){
                 Looseevent = true;                                                                                                       
             }
         }
@@ -1096,8 +1099,9 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
 	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
-
-	    if(counter_photons_higgs==2){
+	    //	    cout<<"isData_ttH "<<isData_ttH<<endl;
+	    if((counter_photons_higgs==2||isData_ttH==1)){
+		//cout<<"entra in Tprime hadronic tag"<<endl;
                     Tprimehadevent = TprimehadronicTag2012(l, diphotonTprimehad_id, &smeared_pho_energy[0]);
 	    }
         }
@@ -1106,9 +1110,11 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             for(int i=0;i<1919;i++){
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
+	    //cout<<"isData_ttH "<<isData_ttH<<endl;
 	    //diphotonTprimelep_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut, subleadEtTprimelepCut, 4,false, &smeared \
 		//					  _pho_energy[0], true);=> in PhotonAnalysis
-	    if(counter_photons_higgs==2){
+		if((counter_photons_higgs==2||isData_ttH==1)){
+		    //    cout<<"entra in Tprime leptonic tag"<<endl;
 		Tprimelepevent = TprimeleptonicTag2012(l, diphotonTprimelep_id, &smeared_pho_energy[0]);
 
 		//if(Tprimelepevent){
@@ -1699,7 +1705,7 @@ void StatAnalysis::computeExclusiveCategory(LoopAll & l, int & category, std::pa
 	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad;
     }else if(Tprimehadevent){
 	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad + (int)includeTprimelep;
-	cout<<"Tprimehadevent cat "<<category<<endl;
+	//cout<<"Tprimehadevent cat "<<category<<endl;
     } else if(TTHlepevent) {
         category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories;
     } else if(VHmuevent || VHlep1event) {
