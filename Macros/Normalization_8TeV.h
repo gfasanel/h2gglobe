@@ -53,6 +53,18 @@ class Normalization_8TeV {
 	std::map<double,double> XSectionMap_tth;
   	std::map<double,double> XSectionMap_sm;
 
+	std::map<double,double> XSectionMap_TprimeM400;
+	std::map<double,double> XSectionMap_TprimeM450;
+	std::map<double,double> XSectionMap_TprimeM500;
+	std::map<double,double> XSectionMap_TprimeM550;
+	std::map<double,double> XSectionMap_TprimeM600;
+	std::map<double,double> XSectionMap_TprimeM650;
+	std::map<double,double> XSectionMap_TprimeM700;
+	std::map<double,double> XSectionMap_TprimeM750;
+	std::map<double,double> XSectionMap_TprimeM800;
+	std::map<double,double> XSectionMap_TprimeM850;
+	std::map<double,double> XSectionMap_TprimeM900;
+
 	std::map<int,std::pair<TString,double > > SignalTypeMap;
 	
 	bool is2011_;
