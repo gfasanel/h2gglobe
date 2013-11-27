@@ -1983,7 +1983,13 @@ bool PhotonAnalysis::SelectEventsReduction(LoopAll& l, int jentry)
     // require at least two reconstructed photons to store the event
 
     if( pho_acc.size() < 2 ) { return false; }
-
+    int np = 0;//Giuseppe
+    int counter_photons_higgs=0;
+    for(int ip=0;ip<1919;++ip) {
+        if(l.gp_pdgid[ip]==22 && l.gp_status[ip]==3 && l.gp_pdgid[l.gp_mother[ip]]==25){counter_photons_higgs++;}
+        }
+    if(counter_photons_higgs!=2){ cout<<"wrong number of photons"<<counter_photons_higgs<<endl;return false;}
+    cout<<"right number of photons "<<counter_photons_higgs<<endl;
     vtxAna_.clear();
     l.vtx_std_ranked_list->clear();
     l.dipho_vtx_std_sel->clear();
