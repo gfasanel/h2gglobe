@@ -4578,14 +4578,25 @@ bool PhotonAnalysis::VHhadronicBtag2012(LoopAll& l, int& diphotonVHhadBtag_id, f
 
     return tag;
 }
-//GIUSEPPE
+//Only one category for hadronic
 //Esiste anche una categoria Loose, ma se e' accesa il tag e' sempre true
 
 bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
     //giuseppe
     //    if(!mvaselection){CASO MIO
-        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut,subleadEtTprimehadCut, 4,
-                                                    false, &smeared_pho_energy[0], true);
+    if(isCiC==5){
+        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut,subleadEtTprimehadCut, 4,false, &smeared_pho_energy[0], true);
+    }else if(isCiC==4){
+        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoTIGHT, l.phoTIGHT, leadEtTprimehadCut,subleadEtTprimehadCut, 4,false, &smeared_pho_energy[0], true);
+    }else if(isCiC==3){
+        cout<<"USING CIC MEDIUM"<<endl;
+        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoMEDIUM, l.phoMEDIUM, leadEtTprimehadCut,subleadEtTprimehadCut, 4,false, &smeared_pho_energy[0], true);
+    }else if(isCiC==2){
+        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoLOOSE, l.phoLOOSE, leadEtTprimehadCut,subleadEtTprimehadCut, 4,false, &smeared_pho_energy[0], true);
+    }else if(isCiC==1){
+        diphotonTprimehad_id = l.DiphotonCiCSelection( l.phoNOCUTS, l.phoNOCUTS, leadEtTprimehadCut,subleadEtTprimehadCut, 4,false, &smeared_pho_energy[0], true);
+    }
+
         cout<<"dentro Tprime hadronic tag"<<endl;
         cout<<"leadEtTprimehadCut"<<leadEtTprimehadCut<<endl;
         cout<<"subleadEtTprimehadCut"<<subleadEtTprimehadCut<<endl;
@@ -4679,18 +4690,21 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
             std::cout<<" njets: "<<njets<<std::endl;
         bool hasPassedJetSelection= (njets>=nJets_thresh && njets_btagloose>=nbJets_thresh && Ht > Ht_thresh);//REAL selection                                
         bool hasPassedPhotonSelection= (/*lead_p4.Pt()>ptLeadTrig_thresh && sublead_p4.Pt()> ptSubleadTrig_thresh &&*/ lead_p4.Pt()> ptLead_thresh && sublead_p4.Pt()>ptSublead_thresh);
-        //che superino i trigger e' ovvio, dati i valori dei tagli                                                                                            
+        //che superino i trigger e' ovvio, dati i valori dei tagli
+
+        bool hasPassedJetPreSelection = (njets>=nJets_thresh);
+        bool hasPassedPhotonPreSelection = (lead_p4.Pt()>ptLeadTrig_thresh && sublead_p4.Pt()> ptSubleadTrig_thresh);
+
         cout<<"nJets_thresh "<<nJets_thresh<<endl;
         cout<<"nbJets_thresh "<<nbJets_thresh<<endl;
         cout<<"Ht_thresh "<<Ht_thresh<<endl;
         cout<<"hasPassedJetSelection "<<hasPassedJetSelection<<endl;
         cout<<"hasPassedPhotonSelection "<<hasPassedPhotonSelection<<endl;
         cout<<"hasPassedJetSelection && hasPassedPhotonSelection "<<(hasPassedJetSelection && hasPassedPhotonSelection)<<endl;
-        if(hasPassedJetSelection && hasPassedPhotonSelection){tag=true;}
+        if(hasPassedJetSelection && hasPassedPhotonSelection){tag=true;}//Commenta-scommenta per eff_presel e spegni Tprime_lep
+        //        if(hasPassedJetPreSelection && hasPassedPhotonPreSelection){tag=true;}//Commenta-scommenta per eff_presel e spegni Tprime_lep in analysis_settings_Tprime.dat e in statanalysis.dat
 
-        if(tag==true){cout<< "tag true per Tprime had"<<endl;
-        int foo;
-        cin>>foo;}
+        if(tag==true){cout<< "tag true per Tprime had"<<endl;}
         if (PADEBUG && tag==true) cout<<"tagged Tprime had"<<endl;
         return tag;
     }
@@ -4746,8 +4760,12 @@ bool PhotonAnalysis::TprimehadronicTag2012(LoopAll& l, int& diphotonTprimehad_id
     }
     
     //    if(!mvaselection){CASO MIO
-    diphotonTprimelep_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut,subleadEtTprimelepCut, 4,
-                                                   false, &smeared_pho_energy[0], true, -1, veto_indices);
+    if(isCiC==5){
+        diphotonTprimelep_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut,subleadEtTprimelepCut, 4,false, &smeared_pho_energy[0], true, -1, veto_indices);
+    }else if(isCiC==3){
+        cout<<"USING CIC MEDIUM"<<endl;
+        diphotonTprimelep_id = l.DiphotonCiCSelection( l.phoMEDIUM, l.phoMEDIUM, leadEtTprimelepCut,subleadEtTprimelepCut, 4,false, &smeared_pho_energy[0], true, -1, veto_indices);
+    }
 
     if(diphotonTprimelep_id==-1) return tag;
     
@@ -5021,6 +5039,7 @@ std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium 
 }
 
 bool PhotonAnalysis::TTHTag7TeV(LoopAll& l, int& diphotonTTHlep_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
+    cout<<"dentro tthhad 7TeV"<<endl;
     bool tag=false;
     bool leptag=false;
     bool hadtag=false;
@@ -5037,6 +5056,7 @@ bool PhotonAnalysis::TTHTag7TeV(LoopAll& l, int& diphotonTTHlep_id, float* smear
 
 bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
     //francesco 
+    cout<<"Dentro tth leptonic"<<endl;
     bool tag = false;
 
     int isLep_mu=0;
@@ -5065,7 +5085,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     if(elInd != -1){
         el_tag = (TLorentzVector*) l.el_std_p4->At(elInd);
     }
-
+    cout<<"G1"<<endl;
     int elVtx=-1;
     std::vector<bool> veto_indices;
     veto_indices.clear();
@@ -5079,7 +5099,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
 
     l.PhotonsToVeto(myelsc, drtoveto,veto_indices, true, drgsftoveto);
 	elVtx=l.FindElectronVertex(elInd);
-
+    cout<<"G12"<<endl;
 	// need to check again for d0 and dZ (couldn't before because we didn't have the vertex)                                        
     if(!(l.ElectronMVACuts(elInd, elVtx)))elInd=-1;
     if(elInd>-1)passElePhotonCuts=true;
@@ -5095,21 +5115,21 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     }
 
     if(diphotonTTHlep_id==-1) return tag;
-
+    cout<<"G13"<<endl;
     //defining TTH variables                                                                                                                                 
     TLorentzVector lead_p4 = l.get_pho_p4( l.dipho_leadind[diphotonTTHlep_id], l.dipho_vtxind[diphotonTTHlep_id], &smeared_pho_energy[0]);
     TLorentzVector sublead_p4 = l.get_pho_p4( l.dipho_subleadind[diphotonTTHlep_id], l.dipho_vtxind[diphotonTTHlep_id], &smeared_pho_energy[0]);
     TLorentzVector diphoton = lead_p4+sublead_p4;
-
+    cout<<"G21"<<endl;
     if(muonInd != -1 && diphotonTTHlep_id !=1){
 	mu_tag= (TLorentzVector*) l.mu_glo_p4->At(muonInd);
 	passMuPhotonCuts=l.MuonPhotonCuts2012B(lead_p4, sublead_p4, mu_tag,drSC_lep);
     }
-
+    cout<<"G22"<<endl;
     if((elInd==-1) && (muonInd==-1))return tag;
     if(passElePhotonCuts == false && passMuPhotonCuts == false)return tag;
 
-
+    cout<<"G23"<<endl;
     if(muonInd != -1 && elInd==-1){
 	if(passMuPhotonCuts){
 	    isLep_mu=1;
@@ -5117,6 +5137,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
 	    el_ind=-1;
 	}
     }
+    cout<<"G14"<<endl;
     if(elInd !=- 1 && muonInd ==-1){
 	if(passElePhotonCuts){
 	    isLep_ele=1;
@@ -5149,7 +5170,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     }
 
     if(isLep_ele!=1 && isLep_mu !=1) return false;
-   
+       cout<<"G15"<<endl;
 
     static std::vector<unsigned char> id_flags;
     if( jetid_flags == 0 ) {
@@ -5163,7 +5184,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     }
 
 
-
+    cout<<"G16"<<endl;
 
 
     /*    if(doDrGsfTrackCut){
@@ -5200,7 +5221,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     int njets=0;
     int njets_btagloose=0;
     int njets_btagmedium=0;
-
+    cout<<"G17"<<endl;
 
     //photon cuts
     ptLead_thresh=60.*diphoton.M()/120.;
@@ -5255,7 +5276,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
 	std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium "<<njets_btagmedium<<std::endl;
 
     }
-
+    cout<<"G18"<<endl;
     bool isBtaggedMedium;
     isBtaggedMedium=(njets_btagmedium>0);
     bool isBtaggedLoose;
@@ -5271,7 +5292,7 @@ bool PhotonAnalysis::TTHleptonicTag2012(LoopAll& l, int& diphotonTTHlep_id, floa
     bool hasPassedPhotonSelection= (lead_p4.Pt()>ptLeadTrig_thresh && sublead_p4.Pt()> ptSubleadTrig_thresh && lead_p4.Pt()> ptLead_thresh);// && sublead_p4.Pt()>ptSublead_thresh);
 
 
-
+    cout<<"Alla fine di tth lep"<<endl;
     if(hasPassedJetSelection && hasPassedPhotonSelection)tag=true;
 
     if (PADEBUG && tag==true) cout<<"tagged TTHlep"<<endl;
@@ -5857,7 +5878,9 @@ void PhotonAnalysis::saveDatCardTree(LoopAll &l, int cur_type, int category, int
     //    if (proc==Form("zh_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=3;//GIUSEPPE
     if (proc==Form("tth_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=3;
     if (proc==Form("Tprime_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=4;//Giuseppe: diverso da prima
-    if (proc==Form("wzh_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=5;
+    if (proc==Form("THWB_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=5;//Giuseppe: diverso da prima
+    if (proc==Form("THtZ_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=6;//Giuseppe: diverso da prima
+    //    if (proc==Form("wzh_mass_m%3.0f",l.normalizer()->GetMass(cur_type))) proc_id=5; //GIUSEPPE
     
     l.FillTree("category",category,"datacard_trees");
     l.FillTree("inc_cat",inc_cat,"datacard_trees");
