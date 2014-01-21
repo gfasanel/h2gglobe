@@ -96,6 +96,7 @@ class PhotonAnalysis : public BaseAnalysis
     bool includeTprimelep;
     bool includeTprimehad;
     int isData_ttH;
+    int isCiC;
     bool includeLoose;
     bool includeVHlep;
     bool includeVHlepPlusMet;
