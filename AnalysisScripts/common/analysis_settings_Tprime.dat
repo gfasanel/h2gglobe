@@ -57,7 +57,7 @@ subleadEtTprimehadCut=25
 #ptJets_Tprime_thresh=25.
 removeBtagtth=0
 applyLeptonSF=0
-applyBtagSF=0
+applyBtagSF=1
 
 
 ## Leptonic Tprime tag
@@ -71,13 +71,17 @@ doDrGsfTrackCut=1
 drSC_lep=0.5
 drGsf_lep=1.
 doApplyEleVeto=0
+applyBtagSF=1
 
 ## Loose tag #va accesa solo per fare le efficienze
 includeLoose=0
 
 ## isData_ttH
 isData_ttH=0
-      
+    
+## isCiC
+isCiC=5
+ 
 ## Hadronic V tag
 includeVHhad=0 
 #1 con micheli
