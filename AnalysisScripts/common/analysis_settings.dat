@@ -77,7 +77,10 @@ includeLoose=0
 
 ##Dico se sono Dati o TTH 
 isData_ttH=1
-        
+    
+##Dico quale CiC voglio (5=> supertight e poi a scendere)
+isCiC=5
+    
 ## Hadronic V tag
 includeVHhad=0 
 #1 con micheli
