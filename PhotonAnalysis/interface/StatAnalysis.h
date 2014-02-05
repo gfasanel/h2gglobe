@@ -119,8 +119,8 @@ class StatAnalysis : public PhotonAnalysis
     
     
 
-    int diphotonVBF_id, diphotonVHhad_id, diphotonVHlep_id, diphotonVHmet_id,diphotonVHhadBtag_id,diphotonTTHhad_id,diphotonTTHlep_id,diphotonTprimehad_id,diphotonTprimelep_id,diphotonLoose_id;
-    bool VHmuevent, VHelevent, VBFevent, VHhadevent,VHhadBtagevent, VHmetevent,TTHhadevent,TTHlepevent,Tprimehadevent,Tprimelepevent,Looseevent;  //met at analysis step 
+    int diphotonVBF_id, diphotonVHhad_id, diphotonVHlep_id, diphotonVHmet_id,diphotonVHhadBtag_id,diphotonTTHhad_id,diphotonTTHlep_id,diphotonTprimehad_id,diphotonTprimelep_id,diphotonLoose_id,diphotonTprimehad_id_lowHt,diphotonTprimehad_id_highHt;
+    bool VHmuevent, VHelevent, VBFevent, VHhadevent,VHhadBtagevent, VHmetevent,TTHhadevent,TTHlepevent,Tprimehadevent,Tprimelepevent,Looseevent, Tprimehadevent_lowHt, Tprimehadevent_highHt;  //met at analysis step 
     bool VHlep1event, VHlep2event;
     int VHelevent_cat;
 	int VHmuevent_cat;
@@ -173,6 +173,7 @@ class StatAnalysis : public PhotonAnalysis
     int nTTHlepCategories;
     int nTprimehadCategories;
     int nTprimelepCategories;
+    int nTprimehadCategories_Ht;
     int nLooseCategories;
     int nVHlepCategories; 
     int nVHmetCategories;

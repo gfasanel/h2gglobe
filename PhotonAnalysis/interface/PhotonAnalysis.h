@@ -95,6 +95,7 @@ class PhotonAnalysis : public BaseAnalysis
     bool includeTTHhad;
     bool includeTprimelep;
     bool includeTprimehad;
+    bool includeTprimehad_Ht;
     int isData_ttH;
     int isCiC;
     bool includeLoose;
@@ -491,6 +492,8 @@ class PhotonAnalysis : public BaseAnalysis
     bool TprimeleptonicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
     //Tprime Hadronic
     bool TprimehadronicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0, bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+    bool TprimehadronicTag2012_lowHt(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0, bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+    bool TprimehadronicTag2012_highHt(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0, bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
     //Esiste anche una categoria Loose, ma tanto e' sempre true
 
     //only one tth category for 7 TeV
