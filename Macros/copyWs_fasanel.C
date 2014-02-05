@@ -1,5 +1,6 @@
 copyWs_fasanel(int i){
-  double corr_norm=2.0;
+  double corr_norm=((double)29376/(double)14675)*(2.28/2.23);
+  //correggo per come e' fatto il sample (io prendo solo gli eventi con 2 fotoni) e poi correggo mettendo il giusto BR(Hgg) con mH=125 GeV
   cout<<"corr_norm "<<corr_norm<<endl;
   RooWorkspace* cms_hgg_workspace=(RooWorkspace*) _file0->Get("cms_hgg_workspace");
   RooRealVar mass=(RooRealVar) cms_hgg_workspace->var("CMS_hgg_mass");
@@ -7,7 +8,7 @@ copyWs_fasanel(int i){
    RooWorkspace* newWs= new RooWorkspace("newWs");
    //   string masses[7]={"400","450","500","550","700","800","900"};
    string masses[5]={"500","600","700","800","900"};
-   cout<<"workspace preso"<<endl;
+
    //cat6 
    TString name_tth="roohist_sig_tth_mass_m125_cat6";
    RooDataHist* roohist_125_tth=(RooDataHist*)cms_hgg_workspace->data(name_tth);

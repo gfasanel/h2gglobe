@@ -25,6 +25,9 @@ parser.add_option("","--addtxt",action="append",type="str", help="Add lines of t
 parser.add_option("","--square",dest="square",help="Make square plots",action="store_true")
 parser.add_option("","--nogrid",dest="nogrid",help="Remove grid from plots",action="store_true")
 parser.add_option("","--nobox",dest="nobox",action="store_true",default=False,help="Don't draw box around text")
+parser.add_option("-f","--plots_file",dest="plots_file")
+parser.add_option("","--ns",action="store_true")
+
 (options,args)=parser.parse_args()
 
 # Standard Imports and calculators
@@ -38,21 +41,24 @@ ROOT.gStyle.SetOptFit(0)
 
 #-------------------------------------------------------------------------
 # Configuration for the Plotter
+bratio=2.28e-03
+sigma= []
+sigma= [0.571,0.170,0.0569,0.0208,0.00809]
+
+isObsLeTheory = [0,0,0,0,0]
+isExpLeTheory = [0,0,0,0,0]
+OBS=[0,0]
+M=[0,0]
+EXPECTED=[0,0,0,0,0]
 OBSmasses = []
 EXPmasses = []
 
-#OBSmassesT = [110,115,120,125,130,135,140,145,150] 
-#OBSmassesT = numpy.arange(110,150.1,1)
-#EXPmassesT = numpy.arange(110,150.1,1)
-#OBSmassesT = numpy.arange(125,126.5,1)
-#EXPmassesT = numpy.arange(125,126.5,1)
-#OBSmassesT = numpy.arange(500,602,100)
-#EXPmassesT = numpy.arange(500,602,100)
-OBSmassesT = [400,450,500,700,800,900]
-EXPmassesT = [400,450,500,700,800,900]
+OBSmassesT = [500,600,700,800,900]
+EXPmassesT = [500,600,700,800,900]
 epsilon = 10  # USELESS=> make this smaller than your smallest step size
-EXP_plot=numpy.arange(400,900,10)#serve per fare le interpolazioni
-OBS_plot=numpy.arange(400,900,10)#serve per fare le interpolazioni
+
+EXP_plot=numpy.arange(500,900,10)#serve per fare le interpolazioni
+OBS_plot=numpy.arange(500,900,10)#serve per fare le interpolazioni
 
 for m in OBSmassesT:
         #if "%.1f"%m=="%d.0"%(m+epsilon):continue   # sigh!
@@ -76,6 +82,8 @@ Lines = [1.,2.,3.,4.,5.]
 MINMH=int(min(EXPmasses))
 MAXMH=int(max(EXPmasses))
 
+if(str(options.plots_file)!="None"):
+    outputfile = open(options.plots_file, 'w')
 if options.show : ROOT.gROOT.SetBatch(False)
 if options.addline and not options.pval : sys.exit("Cannot addlines unless running in pvalue")
 
@@ -167,13 +175,13 @@ elif Method=="Asymptotic" or Method=="AsymptoticNew" or Method=="MaxLikelihoodFi
   EXPmasses = OBSmasses[:]
   for m in EXPmasses:
     if "%.1f"%m=="%d.0"%(m+epsilon) and not options.sideband:   # sigh!
-      print EXPNAME+"%d."+Method+".mH125.root"
-      EXPfiles.append(ROOT.TFile(EXPName+"%d."+Method+".mH125.root"%(m+epsilon)))
-      print EXPName+"%d."+Method+".mH125.root"%(m+epsilon)
+      print EXPNAME+"%d."+Method+".mH125.6.root"
+      EXPfiles.append(ROOT.TFile(EXPName+"%d."+Method+".mH125.6.root"%(m+epsilon)))
+      print EXPName+"%d."+Method+".mH125.6.root"%(m+epsilon)
       print "MIO cout"
     else:
 #      EXPfiles.append(ROOT.TFile(EXPName+".mH%.1f.root"%m))
-      EXPfiles.append(ROOT.TFile(EXPName+"%.0f."%m+Method+".mH125.root"))
+      EXPfiles.append(ROOT.TFile(EXPName+"%.0f."%m+Method+".mH125.6.root"))
     if options.verbose: print "expected MH - ", m, "File - ", EXPfiles[-1].GetName()
 #MIA modifica#
 else:
@@ -190,9 +198,9 @@ OBSfiles = []
 if not options.expectedOnly:#ovvero se non giro con l'opzione -e
   for m in OBSmasses:
     if "%.1f"%m=="%d.0"%(m+epsilon) and not options.sideband:   # sigh!
-      OBSfiles.append(ROOT.TFile(OBSName+"%d."+Method+".mH125.root"%(m+epsilon)))
+      OBSfiles.append(ROOT.TFile(OBSName+"%d."+Method+".mH125.6.root"%(m+epsilon)))
     else:
-      OBSfiles.append(ROOT.TFile(OBSName+"%.0f."%m+Method+".mH125.root"))#questa cosa funziona
+      OBSfiles.append(ROOT.TFile(OBSName+"%.0f."%m+Method+".mH125.6.root"))#questa cosa funziona
     if options.verbose: print "observed MH - ", m, "File - ", OBSfiles[-1].GetName()
 #prendere i limiti osservati!
   if Method == "Asymptotic" or Method =="AsymptoticNew" :  obs = [getOBSERVED(O,5) for O in OBSfiles] # observed is last entry in these files
@@ -461,7 +469,7 @@ def MakeLimitPlot(MG):
     box.SetFillColor(0)
     box.SetShadowColor(0)
 #    if not options.nobox: box.Draw()
-    mytext.DrawLatex(0.2,0.9,"CMS Preliminary #sqrt{s}=8 TeV L=19.6 fb^{-1}")#0.2,0.85
+    mytext.DrawLatex(0.2,0.9,"CMS Preliminary #sqrt{s}=8 TeV L=19.7 fb^{-1}")#0.2,0.85
     for t,lineT in enumerate(options.addtxt):
         mytext.DrawLatex(0.2,0.84-(t+1)*(0.04),"%s"%lineT)
   
@@ -479,8 +487,9 @@ def MakeLimitPlot(MG):
     outputname+="_"+Method
     if options.doRatio: outputname+="_ratio"
     if options.append!="": outputname+="_"+options.append
-    types=[".pdf",".png",".gif",".eps",".ps"]
-    for type in types: C.SaveAs("LIMITS/"+outputname+type)
+    types=[".pdf",".png",".gif",".eps",".ps",".C"]
+    if not options.ns:
+        for type in types: C.SaveAs("LIMITS_rereco/new/"+outputname+type)
 
 #-------------------------------------------------------------------------
 
@@ -501,12 +510,14 @@ for i,mass,f in zip(range(len(EXPfiles)),EXPmasses,EXPfiles):
 
 #sm sta per sezione d'urto teorica. quindi nel mio caso sigma(TT) per tutti i vari BR
 #double Normalization_8TeV::GetXsection(double mass, TString HistName) => mass qui e' quella dell'Higgs, HistName e' il processo
-  if not options.doRatio: sm = 2*signalNormalizer.GetBR(125.0)*signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass)
+# if not options.doRatio: sm = 2*signalNormalizer.GetBR(125)*signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass)
+  if not options.doRatio: sm = 2*bratio*sigma[i]
   print ""
   print "massa GIUSTO"
   print mass
   print "SEZIONE URTO"
-  if not options.doRatio: print 2*signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass)
+#  if not options.doRatio: print 2*signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass)
+  if not options.doRatio: print 2*sigma[i]
   print "sigma*2BR(H->gg)"
   print sm
 
@@ -534,11 +545,36 @@ for i,mass,f in zip(range(len(EXPfiles)),EXPmasses,EXPfiles):
   graphMed.SetPoint(i,float(mass),median[0]*sm)
   graphOne.SetPoint(i,float(mass),1.*sm)#la teoria
   print "median[0] giusto"
-  print median[0]
+  #print median[0]
+  #cambio mio
+  EXPECTED[i]=median[0]
+  isExpLeTheory[i]=(median[0]<1.);
+  print EXPECTED[i]
+  print obs[i]
+  print "up68"
+  print up68[0]
+  print "dn68"
+  print dn68[0]
   print "up95"
   print up95[0]
   print "dn95"
   print dn95[0]
+  if(str(options.plots_file)!="None"):
+      outputfile.write(str(mass))
+      outputfile.write("  ")
+      outputfile.write(str(obs[i]))
+      outputfile.write("  ")
+      outputfile.write(str(dn95[0]))
+      outputfile.write("  ")
+      outputfile.write(str(dn68[0]))
+      outputfile.write("  ")
+      outputfile.write(str(median[0]))
+      outputfile.write("  ")
+      outputfile.write(str(up68[0]))
+      outputfile.write("  ")
+      outputfile.write(str(up95[0]))
+      outputfile.write("\n")
+      
   if Method == "HybridNew":
 
       up95[0]   = FrequentistLimits(f.GetName().replace("0.500.root","0.975.root"))
@@ -561,19 +597,19 @@ for i,mass,f in zip(range(len(EXPfiles)),EXPmasses,EXPfiles):
   graphOne.Draw("AP")
   graphMed.Draw("PSame")
   graph68.Draw("PSame")
-  newCanvas.SaveAs("LIMITS/Point_Test.pdf")
+  newCanvas.SaveAs("LIMITS_rereco/Point_Test.pdf")
   
   if options.doSmooth: #*options.doRatio:  # fit the limits
     sm = 1.
 #    if not options.doRatio:
-#        sm=signalNormalizer.GetBR(125.0)*signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass)       
+#        sm=signalNormalizer.GetBR(125)*signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass)       
 
     graphmede.SetPoint(i,float(mass),median[0]*sm)
     graph68up.SetPoint(i,float(mass),up68[0]*sm)
     graph68dn.SetPoint(i,float(mass),dn68[0]*sm)
     graph95up.SetPoint(i,float(mass),up95[0]*sm)
     graph95dn.SetPoint(i,float(mass),dn95[0]*sm)
-    graphSigma.SetPoint(i,float(mass),signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass))
+    graphSigma.SetPoint(i,float(mass),signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass))
 
 #    graphSigma.SetPointError(i,0,0,0,0)
     graphSigma.SetPoint(i+1,600,0.170)
@@ -641,17 +677,18 @@ if options.doSmooth:
  graphmede.Draw("Psame")#senza P non disegna niente il deficiente!
  graph68dn.Draw("Psame")
  graph95dn.Draw("Psame")
- newCanvas.SaveAs("LIMITS/smoothTest.pdf")
+ newCanvas.SaveAs("LIMITS_rereco/smoothTest.pdf")
  graphSigma.Draw("AP")
- newCanvas.SaveAs("LIMITS/Sigma_Test.pdf")
+ newCanvas.SaveAs("LIMITS_rereco/Sigma_Test.pdf")
  for i,mass in zip(range(len(EXPmasses)),EXPmasses):
 # for i,mass in zip(range(len(EXP_plot)),EXP_plot):
   sm=1.0
   if not options.doRatio:
-    sm = 2*signalNormalizer.GetBR(125.0)*signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass)
-#    sm =2*signalNormalizer.GetBR(125.0)*Sigmafunc.Eval(mass)
+#    sm = 2*signalNormalizer.GetBR(125)*signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass)
+    sm = 2*bratio*sigma[i]
+#    sm =2*signalNormalizer.GetBR(125)*Sigmafunc.Eval(mass)
     #if(mass>=550)*(mass<=600):
-     #   sm =2*signalNormalizer.GetBR(125.0)*Sigmafunc2.Eval(mass)
+     #   sm =2*signalNormalizer.GetBR(125)*Sigmafunc2.Eval(mass)
   #if options.lepcat:
   #    if (mass<=450)*(mass>=400):
   #          mediansmooth = medfunclep2.Eval(mass)
@@ -687,16 +724,87 @@ if options.doSmooth:
 for i,mass in zip(range(len(OBSfiles)),OBSmasses):
 
     sm = 1.;
+    MASSSS=125
     if obs[i] ==-1: continue
-    if not options.doRatio: sm = 2*signalNormalizer.GetBR(125.0)*signalNormalizer.GetXsection(120.0,"TprimeM"+"%d"%mass)
+#    if not options.doRatio: sm = 2*signalNormalizer.GetBR(125)*signalNormalizer.GetXsection(120,"TprimeM"+"%d"%mass)
+    if not options.doRatio: sm = 2*bratio*sigma[i]
     graphObs.SetPoint(i,float(mass),obs[i]*sm)
     print "OSSERVATO"
     print "massa"
     print mass
+    print "osservato"
     print obs[i]
-    print "SM"
+    #obs[i] e' l'upper limit osservato
+    print "teoria"
     print sm
+    print "punto di massa"
+    print i
+    isObsLeTheory[i]=(obs[i]<1.)
+    print "BR check"
+    print bratio
+    print "Sigma check"
+    print sigma[i]
     graphObs.SetPointError(i,0,0,0,0)
+
+print "*****************"
+#for j in zip(range(len(OBSfiles))-1):
+if not options.expectedOnly:
+    for j in 0,1,2,3:
+        #print j
+        if (isObsLeTheory[j]==1 and isObsLeTheory[j+1]==0):
+            M[0]=OBSmasses[j]
+            M[1]=OBSmasses[j+1]
+            OBS[0]=obs[j]
+            OBS[1]=obs[j+1]
+            #print "OBS[0] ="
+            #print OBS[0]
+            #print "OBS[1] ="
+            #print OBS[1]
+            #print "M[0] ="
+            #print M[0]
+            #print "M[1] ="
+            #print M[1]
+    a=0.0
+    b=0.0
+    x=0.0
+    #se la massa esclusa e' maggiore di 500
+    if(M[0]!=0):
+        a=(OBS[0]-OBS[1])/(M[0]-M[1])
+        b=(OBS[0]+OBS[1]-a*(M[0]+M[1]))/2
+        x=(1-b)/a
+        
+    print "(OSSERVATO) Regione esclusa fino a MT"
+    print x
+
+if options.expectedOnly:
+    for j in 0,1,2,3:
+        #print j
+        if (isExpLeTheory[j]==1 and isExpLeTheory[j+1]==0):
+            M[0]=OBSmasses[j]
+            M[1]=OBSmasses[j+1]
+            #si chiama OBS, ma come vedi e' Expected
+            OBS[0]=EXPECTED[j]
+            OBS[1]=EXPECTED[j+1]
+            #print "OBS[0] ="
+            #print OBS[0]
+            #print "OBS[1] ="
+            #print OBS[1]
+            #print "M[0] ="
+            #print M[0]
+            #print "M[1] ="
+            #print M[1]
+    a=0.0
+    b=0.0
+    x=0.0
+    if(M[0]!=0):
+        a=(OBS[0]-OBS[1])/(M[0]-M[1])
+        b=(OBS[0]+OBS[1]-a*(M[0]+M[1]))/2
+        x=(1-b)/a
+        
+    print "(ATTESO) Regione esclusa fino a MT"
+    print x
+
+
 
 # Finally setup the graphs and plot
 graph95.SetFillColor(FILLCOLOR_95)

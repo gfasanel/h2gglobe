@@ -57,8 +57,8 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 					  ,"Inclusive3"
 					  ,"ttH lep"
 					  ,"ttH had"
-					      ,"Tprime lep"
-					      ,"Tprime had"
+					      ,"TT#rightarrowtHtH(#rightarrow #gamma #gamma)"//Tprime lep
+					      ,"TT#rightarrowtHtH(#rightarrow #gamma #gamma)"//Tprime had
 					      /*,"cat10"
 					  ,"cat11"
 					  ,"cat12"*/
@@ -83,6 +83,7 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 	TFile *fs = ( filesig.empty() ? fb : TFile::Open(filesig.c_str()) );
 	//	TFile *fsGiuseppe = TFile::Open("../AnalysisScripts/Tprime_final_2norun/histo_fasanel.root");	
 	TFile *fsGiuseppe = TFile::Open("../AnalysisScripts/Tprime_allMasses/histo_fasanel.root");	
+	TFile *fstth = TFile::Open("../AnalysisScripts/Tprime_allMasses/CMS-HGG_interpolated.root");	
 
 	//	TFile *fbGiuseppe = TFile::Open("../AnalysisScripts/Tprime_final_2norun/CMS-HGG_fasanel_scaled.root");
 		RooWorkspace *w_bkg  = (RooWorkspace*) fb->Get("cms_hgg_workspace");
@@ -93,12 +94,6 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 	RooRealVar *intL = (RooRealVar*) w_bkg->var("IntLumi");
 
        	double lumi = intL->getVal()/1000.;
-
-	//	RooRealVar *xGiuseppe = (RooRealVar*) w_bkgGiuseppe->var("CMS_hgg_mass");
-	//	RooRealVar *intLGiuseppe = (RooRealVar*) w_bkgGiuseppe->var("IntLumi");
-
-       	//double lumiGiuseppe = intLGiuseppe->getVal()/1000.;
-
 
 
 	TLatex *latex = new TLatex();	
@@ -119,13 +114,13 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 	double totalTTHinINCL = 0;
 	double totalWZHinINCL = 0;
 
-	double totalTprimeinINCL = 0;//GIUSEPPE
-	double totalTprimeDIJET = 0;//GIUSEPPE
+	double totalTprimeinINCL = 0;
+	double totalTprimeDIJET = 0;
 
 	//	for (int cat=0;cat<ncats;cat++){
 	for (int cat=6;cat<ncats;cat++){		
 		TCanvas *can = new TCanvas("c","",800,800);
-		TLegend *leg = new TLegend(0.5,0.5,0.89,0.89);
+		TLegend *leg = new TLegend(0.6,0.6,0.89,0.89);
 		leg->SetFillColor(0);
 		leg->SetBorderSize(0);
 		leg->SetFillStyle(0);// legenda trasparente
@@ -146,13 +141,12 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 		
 		// Get Signal pdf norms
 		std::cout << "Getting Signal Components" << std::endl;
-		//TH1F *gghnorm = (TH1F*)fs->Get(Form("th1f_sig_ggh_mass_m125_cat%d",cat));GIUSEPPE
-		//TH1F *vbfnorm = (TH1F*)fs->Get(Form("th1f_sig_vbf_mass_m125_cat%d",cat));GIUSEPPE
-		//TH1F *wzhnorm = (TH1F*)fs->Get(Form("th1f_sig_wzh_mass_m125_cat%d",cat));GIUSEPPE
-		TH1F *tthnorm = (TH1F*)fs->Get(Form("th1f_sig_tth_mass_m125_cat%d",cat));
-		TH1F *Tprimenorm = (TH1F*)fsGiuseppe->Get(Form("th1f_sig_TprimeM700_mass_m125_cat%d",cat));
-		cout<<Form("th1f_sig_TprimeM700_mass_m125_cat%d",cat)<<endl;
-		Tprimenorm->Print();		
+		//TH1F *tthnorm = (TH1F*)fs->Get(Form("th1f_sig_tth_mass_m125.6_cat%d",cat));//dopo che micheli ha rifittato non funziona piu'
+		TH1F *tthnorm = (TH1F*)fstth->Get(Form("th1f_sig_tth_mass_m125.6_cat%d",cat));
+		TH1F *Tprimenorm = (TH1F*)fsGiuseppe->Get(Form("th1f_sig_TprimeM700_mass_m125.6_cat%d",cat));
+		cout<<Form("th1f_sig_TprimeM700_mass_m125.6_cat%d",cat)<<endl;
+		Tprimenorm->Print();
+		cout<<endl<<endl<<"Tprime_norm "<<Tprimenorm->Integral()<<endl<<endl;		
 
 		if (cat<=3){
 		  //totalGGHinINCL+=gghnorm->Integral();
@@ -226,19 +220,20 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 		frame->GetXaxis()->SetNdivisions(5,5,0);
 		frame->GetYaxis()->SetTitle("Events / (1 GeV)");
 		frame->GetYaxis()->SetTitleOffset(1.2);
-		
+
+		leg->SetTextSize(0.024);
 		leg->AddEntry(&dumData,"Data","PEL");
 		leg->AddEntry(&dumBkg,"Bkg Model","L");
 		leg->AddEntry(&dum1Sig,"#pm 1#sigma","F");
 		leg->AddEntry(&dum2Sig,"#pm 2#sigma","F");
-		/// leg->AddEntry(&dumSignal,"1xSM m_{H} = 125 GeV","F");
-		//		leg->AddEntry(allsig,"1xTT m_{H} = 125 GeV m_{T} = 700 GeV","F");//CAMBIARE GIUSEPPE
-		//leg->AddEntry(tthnorm,"1xSM ttH m_{H} = 125 GeV","F");//CAMBIARE GIUSEPPE
-		leg->AddEntry(allsig,"TT","F");//CAMBIARE GIUSEPPE
-		leg->AddEntry(tthnorm,"ttH","F");//CAMBIARE GIUSEPPE
-		
+		leg->AddEntry(allsig,"TT#rightarrow tHtH","F");
+		leg->AddEntry(tthnorm,"ttH(#rightarrow #gamma#gamma)","F");
+
+
+		//frame->SetMinimum(0.00001);//OLD SETTING
+		frame->SetMinimum(0.01);
+		frame->SetMaximum(frame->GetMaximum()*1.6);
 		frame->Draw();
-		frame->SetMinimum(0.0001);
  		if( doBands ) {
  			twosigma->SetLineColor(kGreen);
  			twosigma->SetFillColor(kGreen);
@@ -254,19 +249,27 @@ void makeBkgPlotsGeneric_my(std::string filebkg, std::string filesig="", bool bl
 		allsig->Draw("samehistF");
 		tthnorm->Draw("samehistF");
 		leg->Draw();
-		cmslatex->DrawLatex(0.15,0.8,Form("#splitline{CMS Preliminary}{#sqrt{s} = 8TeV L = %2.1ffb^{-1}}",lumi));
-		latex->DrawLatex(0.1,0.92,labels[cat].c_str());
+		cmslatex->DrawLatex(0.14,0.92,Form("CMS Preliminary #sqrt{s} = 8TeV L = %2.1f fb^{-1}",lumi));
+		latex->SetTextSize(0.034);
+		latex->DrawLatex(0.15,0.85,labels[cat].c_str());
+		if(cat==6){
+		latex->DrawLatex(0.15,0.8,"Leptonic Category");
+		latex->DrawLatex(0.15,0.75,"M_{T}=700 GeV");
+		}else if(cat==7){
+		latex->DrawLatex(0.15,0.8,"Hadronic Category");
+		latex->DrawLatex(0.15,0.75,"M_{T}=700 GeV");
+		}
 		can->SaveAs(Form( (baseline ? "baselinecat%d.pdf" : "massfacmvacat%d.pdf"),cat));
 		can->SaveAs(Form( (baseline ? "baselinecat%d.png" : "massfacmvacat%d.png"),cat));
+		can->SaveAs(Form( (baseline ? "baselinecat%d.eps" : "massfacmvacat%d.eps"),cat));
+		can->SaveAs(Form( (baseline ? "baselinecat%d.C" : "massfacmvacat%d.C"),cat));
+		can->SetLogy();
+		can->SaveAs(Form( (baseline ? "baselinecat%d_log.pdf" : "massfacmvacat%d.pdf"),cat));
+		can->SaveAs(Form( (baseline ? "baselinecat%d_log.png" : "massfacmvacat%d.png"),cat));
+		can->SaveAs(Form( (baseline ? "baselinecat%d_log.eps" : "massfacmvacat%d.eps"),cat));
+		can->SaveAs(Form( (baseline ? "baselinecat%d_log.C" : "massfacmvacat%d.C"),cat));
 	}
 
-	// JET ID Systematics
-	std::cout << "The following can be used (nick knows what they mean) as the JET Migration systematics" <<std::endl;
-	cout<<"CI sono ancora totalGGHinDIJET:: TOGLILO"<<endl;
-	std::cout << "XXX " << 1-(0.7*totalGGHinDIJET/(totalGGHinINCL))<<std::endl;
-	std::cout << "YYY " << 1-(0.7*totalTTHinDIJET/(totalTTHinINCL))<<std::endl;
-	std::cout << "MMM " << 1-(0.1*totalVBFinDIJET/(totalVBFinINCL))<<std::endl;
-	std::cout << "NNN " << 1-(0.1*totalWZHinDIJET/(totalWZHinINCL))<<std::endl;
 }
 
 

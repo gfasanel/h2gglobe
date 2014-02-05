@@ -23,6 +23,8 @@ void Normalization_8TeV::Init(int sqrtS){
 	double valXSttH =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"ttH"));
 	double valXSWH  =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"WH"));
 	double valXSZH  =  (double)TPython::Eval(Form("buildSMHiggsSignalXSBR.getXS(%f,'%s')",mH,"ZH"));
+	//	cout<<"mH "<<mH<<endl;
+	//	cout<<"BR(Hgg) "<<valBR<<endl;
 	BranchingRatioMap[mH]	= valBR;
         XSectionMap_ggh[mH]	= valXSggH; 	
         XSectionMap_vbf[mH]	= valXSqqH; 	
@@ -31,7 +33,8 @@ void Normalization_8TeV::Init(int sqrtS){
         XSectionMap_zh[mH]	= valXSZH;	
         XSectionMap_wzh[mH]	= valXSWH+valXSZH;	
     }
-
+    //    std::cout<<"BR(Hgg) per mH=120 GeV "<<BranchingRatioMap[120.0]<<std::endl;
+    //std::cout<<"BR(Hgg) per mH=125 GeV "<<BranchingRatioMap[125.0]<<std::endl;
     XSectionMap_TprimeM400[120.0]=2.301;//GIUSEPPE
     XSectionMap_TprimeM450[120.0]=1.112;//GIUSEPPE
     XSectionMap_TprimeM500[120.0]=0.571;//GIUSEPPE
@@ -43,6 +46,19 @@ void Normalization_8TeV::Init(int sqrtS){
     XSectionMap_TprimeM800[120.0]=0.0208;//GIUSEPPE
     XSectionMap_TprimeM850[120.0]=0.0129;//GIUSEPPE
     XSectionMap_TprimeM900[120.0]=0.00809;//GIUSEPPE
+
+
+    XSectionMap_THWBM500[120.0]=0.571;//GIUSEPPE
+    XSectionMap_THWBM600[120.0]=0.170;//GIUSEPPE
+    XSectionMap_THWBM700[120.0]=0.0569;//GIUSEPPE
+    XSectionMap_THWBM800[120.0]=0.0208;//GIUSEPPE
+    XSectionMap_THWBM900[120.0]=0.00809;//GIUSEPPE
+
+    XSectionMap_THtZM500[120.0]=0.571;//GIUSEPPE
+    XSectionMap_THtZM600[120.0]=0.170;//GIUSEPPE
+    XSectionMap_THtZM700[120.0]=0.0569;//GIUSEPPE
+    XSectionMap_THtZM800[120.0]=0.0208;//GIUSEPPE
+    XSectionMap_THtZM900[120.0]=0.00809;//GIUSEPPE
 
     //Graviton X-Sections - assume the same as SM
     for (std::map<double, double>::const_iterator iter = XSectionMap_ggh.begin(); iter != XSectionMap_ggh.end(); ++iter)
@@ -62,6 +78,18 @@ void Normalization_8TeV::FillSignalTypes(){
   SignalTypeMap[-19]=std::make_pair<TString,double>("TprimeM800",120);
   SignalTypeMap[-20]=std::make_pair<TString,double>("TprimeM900",120);//GIUSEPPE 
 
+  SignalTypeMap[-49]=std::make_pair<TString,double>("THWBM500",120);
+  SignalTypeMap[-50]=std::make_pair<TString,double>("THWBM600",120);//GIUSEPPE 
+  SignalTypeMap[-57]=std::make_pair<TString,double>("THWBM700",120);//GIUSEPPE 
+  SignalTypeMap[-61]=std::make_pair<TString,double>("THWBM800",120);//GIUSEPPE                                                                           
+  SignalTypeMap[-62]=std::make_pair<TString,double>("THWBM900",120);
+  SignalTypeMap[-63]=std::make_pair<TString,double>("THtZM500",120);
+  SignalTypeMap[-64]=std::make_pair<TString,double>("THtZM600",120);//GIUSEPPE 
+  SignalTypeMap[-65]=std::make_pair<TString,double>("THtZM700",120);//GIUSEPPE                                                                           
+  SignalTypeMap[-66]=std::make_pair<TString,double>("THtZM800",120);
+  SignalTypeMap[-67]=std::make_pair<TString,double>("THtZM900",120);
+  //fregare i numeretti!
+
   //  SignalTypeMap[-73]=std::make_pair<TString,double>("ggh",124);
   SignalTypeMap[-74]=std::make_pair<TString,double>("vbf",124);
   SignalTypeMap[-76]=std::make_pair<TString,double>("wzh",124);
@@ -71,7 +99,7 @@ void Normalization_8TeV::FillSignalTypes(){
   SignalTypeMap[-80]=std::make_pair<TString,double>("wzh",126);
   SignalTypeMap[-79]=std::make_pair<TString,double>("tth",126);
   
-  SignalTypeMap[-57]=std::make_pair<TString,double>("ggh",123);
+  //SignalTypeMap[-57]=std::make_pair<TString,double>("ggh",123);
   SignalTypeMap[-58]=std::make_pair<TString,double>("vbf",123);
   SignalTypeMap[-60]=std::make_pair<TString,double>("wzh",123);
   SignalTypeMap[-59]=std::make_pair<TString,double>("tth",123);
@@ -79,16 +107,16 @@ void Normalization_8TeV::FillSignalTypes(){
   SignalTypeMap[-54]=std::make_pair<TString,double>("vbf",121);
   SignalTypeMap[-56]=std::make_pair<TString,double>("wzh",121);
   SignalTypeMap[-55]=std::make_pair<TString,double>("tth",121);
-  SignalTypeMap[-65]=std::make_pair<TString,double>("ggh",160);
-  SignalTypeMap[-66]=std::make_pair<TString,double>("vbf",160);
+  //SignalTypeMap[-65]=std::make_pair<TString,double>("ggh",160);
+  //SignalTypeMap[-66]=std::make_pair<TString,double>("vbf",160);
   SignalTypeMap[-68]=std::make_pair<TString,double>("wzh",160);
-  SignalTypeMap[-67]=std::make_pair<TString,double>("tth",160);
-  SignalTypeMap[-61]=std::make_pair<TString,double>("ggh",155);
-  SignalTypeMap[-62]=std::make_pair<TString,double>("vbf",155);
-  SignalTypeMap[-64]=std::make_pair<TString,double>("wzh",155);
-  SignalTypeMap[-63]=std::make_pair<TString,double>("tth",155);
-  SignalTypeMap[-49]=std::make_pair<TString,double>("ggh",150);
-  SignalTypeMap[-50]=std::make_pair<TString,double>("vbf",150);
+  //SignalTypeMap[-67]=std::make_pair<TString,double>("tth",160);
+  //SignalTypeMap[-61]=std::make_pair<TString,double>("ggh",155);
+  //SignalTypeMap[-62]=std::make_pair<TString,double>("vbf",155);
+  //SignalTypeMap[-64]=std::make_pair<TString,double>("wzh",155);
+  //SignalTypeMap[-63]=std::make_pair<TString,double>("tth",155);
+  //  SignalTypeMap[-49]=std::make_pair<TString,double>("ggh",150);
+  //  SignalTypeMap[-50]=std::make_pair<TString,double>("vbf",150);
   SignalTypeMap[-52]=std::make_pair<TString,double>("wzh",150);
   SignalTypeMap[-51]=std::make_pair<TString,double>("tth",150);
   SignalTypeMap[-45]=std::make_pair<TString,double>("ggh",145);
@@ -257,6 +285,28 @@ double Normalization_8TeV::GetXsection(double mass, TString HistName) {
   XSectionMap = &XSectionMap_TprimeM850;
  } else if (HistName.Contains("TprimeM900")) {
   XSectionMap = &XSectionMap_TprimeM900;
+ } else if (HistName.Contains("TprimeM900")) {
+  XSectionMap = &XSectionMap_TprimeM900;
+ } else if (HistName.Contains("THWBM500")) {
+  XSectionMap = &XSectionMap_THWBM500;
+ } else if (HistName.Contains("THWBM600")) {
+  XSectionMap = &XSectionMap_THWBM600;
+ } else if (HistName.Contains("THWBM700")) {
+  XSectionMap = &XSectionMap_THWBM700;
+ } else if (HistName.Contains("THWBM800")) {
+  XSectionMap = &XSectionMap_THWBM800;
+ } else if (HistName.Contains("THWBM900")) {
+  XSectionMap = &XSectionMap_THWBM900;
+ } else if (HistName.Contains("THtZM500")) {
+  XSectionMap = &XSectionMap_THtZM500;
+ } else if (HistName.Contains("THtZM600")) {
+  XSectionMap = &XSectionMap_THtZM600;
+ } else if (HistName.Contains("THtZM700")) {
+  XSectionMap = &XSectionMap_THtZM700;
+ } else if (HistName.Contains("THtZM800")) {
+  XSectionMap = &XSectionMap_THtZM800;
+ } else if (HistName.Contains("THtZM900")) {
+  XSectionMap = &XSectionMap_THtZM900;
  } else if (HistName.Contains("grav")) {
     XSectionMap = &XSectionMap_sm;
   } else {
@@ -355,6 +405,9 @@ double Normalization_8TeV::GetNorm(double mass1, TH1F* hist1, double mass2, TH1F
   double effAcc2 = hist2->Integral()/(xsec2*br2);
 
   double Normalization = (xsec*br)*(effAcc1 + alpha * (effAcc2 - effAcc1));
+  //cout<<"xsec*br "<<xsec*br<<endl;
+  //cout<<"xsec "<<xsec<<endl;
+  //cout<<"br "<<br<<endl;
 
   /// std::cout << mass1 << " " << hist1->GetName() << " " << mass2 << " " << hist2->GetName() << " " << mass 
   /// 	    << br << " " << br1 << " " << br2 << " " << xsec << " " << xsec1 << " " << xsec2 << " " << alpha << " " 
