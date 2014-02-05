@@ -38,6 +38,7 @@ StatAnalysis::StatAnalysis()  :
     nTTHhadCategories = 0;
     nTTHlepCategories = 0;
     nTprimehadCategories = 0;//GIUSEPPE
+    nTprimehadCategories_Ht=0;//GIUSEPPE Ht
     nTprimelepCategories = 0;//GIUSEPPE
     nLooseCategories = 0;//GIUSEPPE 
     nCosThetaCategories = 0;
@@ -187,6 +188,7 @@ void StatAnalysis::Init(LoopAll& l)
     nTTHlepCategories =((int)includeTTHlep);
     nTprimehadCategories =((int)includeTprimehad);//GIUSEPPE
     nTprimelepCategories =((int)includeTprimelep);//GIUSEPPE
+    nTprimehadCategories_Ht =1+((int)includeTprimehad_Ht);//GIUSEPPE Ht
     nLooseCategories =((int)includeLoose);//GIUSEPPE 
     cout<<"nLooseCategories "<<nLooseCategories<<endl;
 
@@ -198,7 +200,7 @@ void StatAnalysis::Init(LoopAll& l)
     }
     nVHmetCategories = (int)includeVHmet;  //met at analysis step
 
-    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHlepCategories+nVHmetCategories+nVHhadCategories+nVHhadBtagCategories+nTTHhadCategories+nTTHlepCategories + nTprimehadCategories+nTprimelepCategories+nLooseCategories);//GIUSEPPE 
+    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHlepCategories+nVHmetCategories+nVHhadCategories+nVHhadBtagCategories+nTTHhadCategories+nTTHlepCategories + nTprimehadCategories+nTprimelepCategories+nLooseCategories+ nTprimehadCategories_Ht);//GIUSEPPE 
     cout<<"nCategories_ "<<nCategories_<<endl;
     //    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHhadCategories+nVHlepCategories+nVHmetCategories);  //met at analysis step
     //    nCategories_=(nInclusiveCategories_+nVBFCategories+nVHhadCategories+nVHlepCategories);
@@ -370,7 +372,21 @@ void StatAnalysis::Init(LoopAll& l)
     l.rooContainer->AddConstant("XSBR_TprimeM600_120",0.0003876);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM700_120",0.000129732);//GIUSEPPE
     l.rooContainer->AddConstant("XSBR_TprimeM800_120",0.000047424);//GIUSEPPE
-    l.rooContainer->AddConstant("XSBR_TprimeM900_120",0.0000184452);// GIUSEPPE 
+    l.rooContainer->AddConstant("XSBR_TprimeM900_120",0.0000184452);// GIUSEPPE
+
+    l.rooContainer->AddConstant("XSBR_THWBM400_120",0.00524638);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THWBM500_120",0.00130188);//GIUSEPPE 
+    l.rooContainer->AddConstant("XSBR_THWBM600_120",0.0003876);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THWBM700_120",0.000129732);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THWBM800_120",0.000047424);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THWBM900_120",0.0000184452);// GIUSEPPE
+
+    l.rooContainer->AddConstant("XSBR_THtZM400_120",0.00524638);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THtZM500_120",0.00130188);//GIUSEPPE 
+    l.rooContainer->AddConstant("XSBR_THtZM600_120",0.0003876);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THtZM700_120",0.000129732);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THtZM800_120",0.000047424);//GIUSEPPE
+    l.rooContainer->AddConstant("XSBR_THtZM900_120",0.0000184452);// GIUSEPPE
 
     // -----------------------------------------------------
     // Configurable background model
@@ -381,7 +397,7 @@ void StatAnalysis::Init(LoopAll& l)
 	cout<<"Categorie"<<nCategories_<<endl;
 	cout<<"Categorie inclusive"<<nInclusiveCategories_<<endl;
 	cout<<"Categorie TTH"<<nInclusiveCategories_+nTTHhadCategories+nTTHlepCategories<<endl;
-	cout<<"Categorie Tprime"<<nInclusiveCategories_+nTTHhadCategories+nTTHlepCategories+nTprimehadCategories+nTprimelepCategories<<endl;
+	cout<<"Categorie Tprime"<<nInclusiveCategories_+nTTHhadCategories+nTTHlepCategories+nTprimehadCategories+nTprimelepCategories + nTprimehadCategories_Ht<<endl;
         for(int i=0; i<nCategories_; i++){
             if(i<nInclusiveCategories_) {
                 bkgPolOrderByCat.push_back(5);
@@ -581,6 +597,18 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d",sig),nDataBins);//GIUSEPPE
+
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM500_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM600_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM700_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM800_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM900_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM500_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM600_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM700_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM800_mass_m%d",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM900_mass_m%d",sig),nDataBins);
+
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_ggh_mass_m%d_rv",sig),nDataBins);
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_vbf_mass_m%d_rv",sig),nDataBins);
 		if(!splitwzh) l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_wzh_mass_m%d_rv",sig),nDataBins);
@@ -597,6 +625,17 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d_rv",sig),nDataBins);//GIUSEPPE
+
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM500_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM600_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM700_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM800_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM900_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM500_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM600_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM700_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM800_mass_m%d_rv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM900_mass_m%d_rv",sig),nDataBins);
 		
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_ggh_mass_m%d_wv",sig),nDataBins);
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_vbf_mass_m%d_wv",sig),nDataBins);
@@ -614,6 +653,17 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
 		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d_wv",sig),nDataBins);//GIUSEPPE
+
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM500_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM600_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM700_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM800_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM900_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM500_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM600_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM700_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM800_mass_m%d_wv",sig),nDataBins);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM900_mass_m%d_wv",sig),nDataBins);
 	    }
 	    // Spin Analysis Datasets
 	    else {
@@ -669,6 +719,17 @@ void StatAnalysis::bookSignalModel(LoopAll& l, Int_t nDataBins)
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM700_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM800_mass_m%d",sig),-1);//GIUSEPPE
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_TprimeM900_mass_m%d",sig),-1);//GIUSEPPE
+
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM500_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM600_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM700_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM800_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THWBM900_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM500_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM600_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM700_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM800_mass_m%d",sig),-1);
+		l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_THtZM900_mass_m%d",sig),-1);
 	    }
 	    else {
 		l.rooContainer->MakeSystematics("CMS_hgg_mass",Form("sig_ggh_mass_m%d",sig),-1);
@@ -837,6 +898,7 @@ bool StatAnalysis::Analysis(LoopAll& l, Int_t jentry)
             }
 
             // di-photon systematics: vertex efficiency and trigger
+	    cout<<"A15"<<endl;
             for(std::vector<BaseDiPhotonSmearer *>::iterator si=systDiPhotonSmearers_.begin(); si!= systDiPhotonSmearers_.end(); ++si ) {
                 mass_errors.clear(), weights.clear(), categories.clear(), mva_errors.clear();
 
@@ -852,8 +914,9 @@ bool StatAnalysis::Analysis(LoopAll& l, Int_t jentry)
                     AccumulateSyst( cur_type, syst_mass, syst_diphotonMVA, syst_category, syst_weight,
                             mass_errors, mva_errors, categories, weights);
                 }
-
+		cout<<"A16"<<endl;
                 FillRooContainerSyst(l, (*si)->name(), cur_type, mass_errors, mva_errors, categories, weights, diphoton_id);
+		cout<<"A17"<<endl;
             }
         }
 	
@@ -994,6 +1057,8 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 	diphotonTTHhad_id = -1;
 	diphotonTTHlep_id = -1;
 	diphotonTprimehad_id = -1;//GIUSEPPE
+	diphotonTprimehad_id_lowHt = -1;//GIUSEPPE
+	diphotonTprimehad_id_highHt = -1;//GIUSEPPE
 	diphotonTprimelep_id = -1;//GIUSEPPE
 	diphotonLoose_id = -1;//GIUSEPPE
 	diphotonVHlep_id = -1;
@@ -1010,6 +1075,8 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 	TTHhadevent = false;
 	TTHlepevent = false;
 	Tprimehadevent = false;
+	Tprimehadevent_lowHt = false;
+	Tprimehadevent_highHt = false;
 	Tprimelepevent = false;
 	Looseevent = false;
         VHmetevent = false; //met at analysis step
@@ -1051,7 +1118,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         }
 
         // VBF+hadronic VH
-	    if((includeVBF || includeVHhad|| includeVHhadBtag || includeTTHhad || includeTTHlep || includeTprimehad || includeTprimelep || includeLoose ||runJetsForSpin)&&l.jet_algoPF1_n>1 && !isSyst /*avoid rescale > once*/) {
+	    if((includeVBF || includeVHhad|| includeVHhadBtag || includeTTHhad || includeTTHlep || includeTprimehad || includeTprimehad_Ht|| includeTprimelep || includeLoose ||runJetsForSpin)&&l.jet_algoPF1_n>1 && !isSyst /*avoid rescale > once*/) {
             l.RescaleJetEnergy();
         }
 
@@ -1085,9 +1152,28 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 		if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
 	    }
             diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0,4,false, &smeared_pho_energy[0], true);
+	    //diphotonLoose_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33, 25,4,false, &smeared_pho_energy[0], true);
             if((counter_photons_higgs==2||isData_ttH==1) && diphotonLoose_id!=-1){
                 Looseevent = true;                                                                                                       
             }
+	    if(diphotonLoose_id==-1){cout<<"in LOOSE: diphotonLoose_id==-1"<<endl;}
+        }
+        if(includeTprimehad_Ht){
+            int counter_photons_higgs=0;
+            for(int i=0;i<1919;i++){
+		//cout<<"Dentro il filtro sul numero di fotoni"<<endl;
+		//		cout<<"pdgid"<<l.gp_pdgid[i]<<endl;
+		//cout<<"status"<<l.gp_status[i]<<endl;
+		//cout<<"mother"<<l.gp_pdgid[l.gp_mother[i]]<<endl;
+                if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
+            }
+	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
+	    //	    cout<<"isData_ttH "<<isData_ttH<<endl;
+	    if((counter_photons_higgs==2||isData_ttH==1)){
+		//cout<<"entra in Tprime hadronic tag"<<endl;
+                    Tprimehadevent_lowHt = TprimehadronicTag2012_lowHt(l, diphotonTprimehad_id_lowHt, &smeared_pho_energy[0]);
+                    Tprimehadevent_highHt = TprimehadronicTag2012_highHt(l, diphotonTprimehad_id_highHt, &smeared_pho_energy[0]);
+	    }
         }
         if(includeTprimehad){
             int counter_photons_higgs=0;
@@ -1131,18 +1217,30 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 	}
 
         if(includeTTHlep) {
-	    if(!(l.sqrtS==7)){
-		TTHlepevent = TTHleptonicTag2012(l, diphotonTTHlep_id, &smeared_pho_energy[0]);
+	    if(isData_ttH!=1){//se e' un Tprime non entri nel tag ttH perche' crasha( Non so perche')
+		TTHlepevent=false;
+		cout<<"TTH lep false"<<endl;
 	    }else{
-		TTHlepevent = TTHTag7TeV(l, diphotonTTHlep_id,  &smeared_pho_energy[0]);
+		cout<<"else TTH lep"<<endl;
+		if(!(l.sqrtS==7)){
+		TTHlepevent = TTHleptonicTag2012(l, diphotonTTHlep_id, &smeared_pho_energy[0]);
+		}else {
+		    TTHlepevent = TTHTag7TeV(l, diphotonTTHlep_id,  &smeared_pho_energy[0]);
+		}
 	    }
 	}
-
+	cout<<"Classificazione in Categorie"<<endl;
 	// priority of analysis: (Loose), Tprime lep, Tprime had, TTH leptonic, TTH hadronic, lepton tag, vbf,vh met, vhhad btag, vh had 0tag, 
         if (includeLoose&&Looseevent) {
 	    diphoton_id = diphotonLoose_id;
 	}else if (includeTprimelep&&Tprimelepevent) {
 	    diphoton_id = diphotonTprimelep_id;
+	}else if (includeTprimehad_Ht&&Tprimehadevent_lowHt) {
+	    diphoton_id = diphotonTprimehad_id_lowHt;
+	    //cout<<"id diphoton"<<diphotonTprimehad_id_lowHt<<endl;
+	}else if (includeTprimehad_Ht&&Tprimehadevent_highHt) {
+	    diphoton_id = diphotonTprimehad_id_highHt;
+	    //cout<<"id diphoton"<<diphotonTprimehad_id<<endl;
 	}else if (includeTprimehad&&Tprimehadevent) {
 	    diphoton_id = diphotonTprimehad_id;
 	    cout<<"id diphoton"<<diphotonTprimehad_id<<endl;
@@ -1161,6 +1259,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         } else if(includeVHmet&&VHmetevent) {
             diphoton_id = diphotonVHmet_id;
 	} else if(includeTTHhad&&TTHhadevent) {
+	    cout<<"in cat TTHhad"<<endl;
 	    diphoton_id = diphotonTTHhad_id;
 	} else if(includeVHhadBtag&&VHhadBtagevent) {
 	    diphoton_id = diphotonVHhadBtag_id;
@@ -1174,6 +1273,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 
     // if we selected any di-photon, compute the Higgs candidate kinematics
     // and compute the event category
+    cout<<"End exclusive mode selection"<<endl;
     if (diphoton_id > -1 ) {
         diphoton_index = std::make_pair( l.dipho_leadind[diphoton_id],  l.dipho_subleadind[diphoton_id] );
 
@@ -1199,7 +1299,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         if (reweighPt && cur_type!=0){
             evweight*=PtReweight(Higgs.Pt(),cur_type);
         }
-
+	cout<<"A1"<<endl;
 
         // FIXME pass smeared R9
         category = l.DiphotonCategory(diphoton_index.first,diphoton_index.second,Higgs.Pt(),Higgs.Pt()/Higgs.M(),nEtaCategories,nR9Categories,R9CatBoundary,nPtCategories,nPtOverMCategories,nVtxCategories,l.vtx_std_n);
@@ -1254,7 +1354,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         //save vbf trees
         if (!isSyst && cur_type<0 && saveVBFTrees_) saveVBFTree(l,category, evweight, -99.);
 
-
+	cout<<"A12"<<endl;
         if (dumpAscii && !isSyst && (cur_type==0||dumpMcAscii) && mass>=massMin && mass<=massMax ) {
             // New ascii event list for syncrhonizing MVA Preselection + Diphoton MVA
             eventListText <<"type:"<< cur_type 
@@ -1503,13 +1603,14 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
 	//if needed you can compute btag efficiency 
 	//	computeBtagEff(l);
 
-
-	if(includeTTHlep || includeTTHhad){
+	cout<<"A13"<<endl;
+	if(includeTTHlep || includeTTHhad || includeTprimelep || includeTprimehad){
 	    bool isMC = l.itype[l.current]!=0;
 	    if(isMC && applyBtagSF ){
 		if (category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories ||
 		    category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories+nTTHlepCategories){//tth categories
 		    evweight*=BtagReweight(l,shiftBtagEffUp_bc,shiftBtagEffDown_bc,shiftBtagEffUp_l,shiftBtagEffDown_l,1);
+		    cout<<"A14"<<endl;
 		}
 	    }
 	}
@@ -1692,7 +1793,14 @@ void StatAnalysis::FillRooContainerSyst(LoopAll& l, const std::string &name, int
              */
         }
         // feed the modified signal model to the RooContainer
+	cout<<"B"<<endl;
+	cout<<"name"<<name<<endl;
+	cout<<GetSignalLabel(cur_type,l)<<endl;
+	cout<<categories[0]<<endl;
+	cout<<mass_errors[0]<<endl;
+	cout<<weights[0]<<endl;
         l.rooContainer->InputSystematicSet("sig_"+GetSignalLabel(cur_type, l),name,categories,mass_errors,weights);
+	cout<<"B1"<<endl;
     }
 }
 
@@ -1703,8 +1811,15 @@ void StatAnalysis::computeExclusiveCategory(LoopAll & l, int & category, std::pa
 	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad + (int)includeTprimelep + (int)includeTprimehad;
     }else if(Tprimelepevent){
 	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad;
-    }else if(Tprimehadevent){
+	cout<<"Tprimelep cat"<<category<<endl;//cat6=> Tprime leptonic
+    }else if(Tprimehadevent_lowHt){
 	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad + (int)includeTprimelep;
+	cout<<"Tprimehadevent low cat "<<category<<endl;
+    }else if(Tprimehadevent_highHt){
+	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad + (int)includeTprimelep+1;
+	cout<<"Tprimehadevent high cat "<<category<<endl;
+    }else if(Tprimehadevent){
+	category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories + (int)includeTTHlep + (int)includeTTHhad + (int)includeTprimelep +2*(int)includeTprimehad_Ht;
 	//cout<<"Tprimehadevent cat "<<category<<endl;
     } else if(TTHlepevent) {
         category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories;
