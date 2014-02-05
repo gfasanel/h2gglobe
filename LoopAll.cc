@@ -145,6 +145,7 @@ SampleContainer & LoopAll::DefineSamples(const char *filesshortnam,
   
   // set intlumi in LoopAll
   intlumi_=intlumi;
+  cout<<"In define sample Luminosita'"<<intlumi<<endl;
   //look in map for type as a key already
   int sample_is_defined = -1;
   for (unsigned int s=0; s<sampleContainer.size(); s++) {
@@ -156,13 +157,16 @@ SampleContainer & LoopAll::DefineSamples(const char *filesshortnam,
   
   if (sample_is_defined != -1) {
     if( addnevents ) {
+      cout<<"sample_is_defined "<<sample_is_defined<<endl;
+      cout<<"ntot "<<ntot<<endl;
       sampleContainer[sample_is_defined].ntot += ntot;
       sampleContainer[sample_is_defined].nred += nred;
       sampleContainer[sample_is_defined].computeWeight(intlumi);
     }
     return sampleContainer[sample_is_defined];
   }
-
+  cout<<"weight in LoopAll "<<weight<<endl;
+  cout<<"ntot in LoopAll "<<ntot<<endl;
   sampleContainer.push_back(SampleContainer((ignoreEvWeight?0:&weight)));
   sampleContainer.back().itype = type;
   sampleContainer.back().ntot = ntot;
