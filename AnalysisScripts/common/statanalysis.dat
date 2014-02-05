@@ -61,7 +61,12 @@ efficiencyFile=aux/sig_reweighing_legacy_run2012ABCD_cutbased_v3.root
 #tth and vh added -10,2,3,3 #micheli
 #bkgPolOrderByCat=5,5,5,5,4,4,3,3,3,-10,2,3
 #Inclusive, TTh, Tprime had and lep
-bkgPolOrderByCat=5,5,5,5,-10,2,-10,2
+#bkgPolOrderByCat=5,5,5,5,-10,2,-10,2
+
+#Inclusive, TTh, Tprime had_lowHt,Tprime had_highHt, and lep
+bkgPolOrderByCat=5,5,5,5,-10,2,-10,2,2,2
+
+
 #Inclusive, TTh, Tprime had only for eff_presel
 #bkgPolOrderByCat=5,5,5,5,-10,2,2
 

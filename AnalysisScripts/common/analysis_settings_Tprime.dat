@@ -50,6 +50,7 @@ doApplyEleVeto=0
 
 ## Hadronic Tprime tag
 includeTprimehad=1
+includeTprimehad_Ht=1
 leadEtTprimehadCut=33
 subleadEtTprimehadCut=25
 #diphobdt_output_Cut_Tprimehad=-0.3
