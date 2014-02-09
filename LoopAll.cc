@@ -1413,6 +1413,7 @@ void LoopAll::FillTree(std::string name, float x, std::string dirName){
     treeContainer[dirName][current_sample_index].FillFloat(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName "<<endl;
 }
 // ------------------------------------------------------------------------------------
 void LoopAll::FillTree(std::string name, double x, std::string dirName){
@@ -1420,6 +1421,7 @@ void LoopAll::FillTree(std::string name, double x, std::string dirName){
     treeContainer[dirName][current_sample_index].FillDouble(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName"<<endl;
 }
 // ------------------------------------------------------------------------------------
 void LoopAll::FillTree(std::string name, int x, std::string dirName){
@@ -1427,6 +1429,7 @@ void LoopAll::FillTree(std::string name, int x, std::string dirName){
     treeContainer[dirName][current_sample_index].FillInt(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName "<<dirName<<endl;
 }
 // ------------------------------------------------------------------------------------
 void LoopAll::FillTree(std::string name, unsigned int x, std::string dirName){
@@ -1434,6 +1437,7 @@ void LoopAll::FillTree(std::string name, unsigned int x, std::string dirName){
     treeContainer[dirName][current_sample_index].FillUInt(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName"<<dirName<<endl;
 }
 
 void LoopAll::FillTree(std::string name, std::string x, std::string dirName) {
@@ -1441,12 +1445,14 @@ void LoopAll::FillTree(std::string name, std::string x, std::string dirName) {
     treeContainer[dirName][current_sample_index].FillString(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName"<<endl;
 }
 void LoopAll::FillTree(std::string name, bool x, std::string dirName) {
   if (treeContainer.find(dirName) != treeContainer.end())
     treeContainer[dirName][current_sample_index].FillBool(name, x);
   else
     std::cout << "Tree type " << dirName << " not defined" << std::endl;
+  cout<<"dirName"<<endl;
 }
  
 // ------------------------------------------------------------------------------------
