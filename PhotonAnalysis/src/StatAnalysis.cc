@@ -1334,6 +1334,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
                     category, isCorrectVertex, evweight, vtx, l, muVtx, mu_ind, elVtx, el_ind );
 
             if (fillOptTree) {
+		cout<<"Sta per fillare OpTree"<<endl;
                 fillOpTree(l, lead_p4, sublead_p4, -2, diphoton_index, diphoton_id, -2, -2, weight, 
                         mass, -1, -1, Higgs, -2, category, VBFevent, myVBF_Mjj, myVBFLeadJPt, 
                         myVBFSubJPt, nVBFDijetJetCategories, isSyst, "no-syst");
@@ -2292,12 +2293,88 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
         const TLorentzVector & Higgs, Float_t diphobdt_output, Int_t category, bool VBFevent, Float_t myVBF_Mjj, Float_t myVBFLeadJPt, 
         Float_t myVBFSubJPt, Int_t nVBFDijetJetCategories, bool isSyst, std::string name1) {
 
-    int vbfcat=-1;
+    //TREE DI CONTROLLO
+    cout<<"Sta fillando l'opTree"<<endl;
+    
+    /*int vbfcat=-1;
     if(VBFevent){
         vbfcat=l.DijetSubCategory(myVBF_Mjj,myVBFLeadJPt,myVBFSubJPt,nVBFDijetJetCategories);
+	}*/
+
+    //Salvo le informazioni di generatore per i fotoni generati
+    Float_t Pt1_gen,Eta1_gen,Phi1_gen,Pt2_gen,Eta2_gen,Phi2_gen,deltaRGamma1Gamma2_gen;
+    TLorentzVector* my_phot1;
+    TLorentzVector* my_phot2;
+    int photon_number1,photon_number2;
+    photon_number1=0;
+    photon_number2=0;
+    int number_photon=0;
+
+    for(int i=0;i<1919;i++){
+	if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){
+	    if(photon_number1==0){
+		photon_number1=i;
+	    }else{
+		photon_number2=i;
+	    }
+	    number_photon++;
+	}
     }
 
-    Float_t njets10=0., njets15=0., njets20=0.;
+    //swap photons, if necessary
+    //    if(number_photon==2){
+    Pt1_gen = ((TLorentzVector*)l.gp_p4->At(photon_number1))->Pt();
+    Pt2_gen = ((TLorentzVector*)l.gp_p4->At(photon_number2))->Pt();
+    //}else{
+    //Pt1_gen=-999;
+    //Pt2_gen=-999;
+    //}
+
+    int temp;
+    if(Pt1_gen<Pt2_gen){
+	temp=photon_number1;
+	photon_number1=photon_number2;
+	photon_number2=temp;
+    }
+
+    my_phot1 = (TLorentzVector*)l.gp_p4->At(photon_number1);
+    my_phot2 = (TLorentzVector*)l.gp_p4->At(photon_number2);
+    deltaRGamma1Gamma2_gen = my_phot1->DeltaR(*my_phot2);
+
+    l.FillTree("category", (int)category);
+    l.FillTree("Pt1_gen",my_phot1->Pt());
+    l.FillTree("Eta1_gen",my_phot1->Eta());
+    l.FillTree("Phi1_gen",my_phot1->Phi());
+    l.FillTree("Pt2_gen",my_phot2->Pt());
+    l.FillTree("Eta2_gen",my_phot2->Eta());
+    l.FillTree("Phi2_gen",my_phot2->Phi());
+    l.FillTree("deltaRGamma1Gamma2_gen",deltaRGamma1Gamma2_gen);
+    l.FillTree("number_photon",number_photon);
+    l.FillTree("mass", (float)mass);
+    l.FillTree("pt1", (float)lead_p4.Pt());
+    l.FillTree("pt2", (float)sublead_p4.Pt());
+
+    int isleptonic=0;
+    float myptcut=20.;
+    int elInd = l.ElectronSelectionMVA2012(myptcut);
+    int muonInd = l.MuonSelection2012B(myptcut);
+    if(elInd != -1 ||muonInd != -1){
+	isleptonic=1;
+    }
+
+    l.FillTree("isleptonic",isleptonic);
+
+    l.FillTree("weight",(float)weight);
+    
+
+    //l.FillTree("evweight",(float)evweight);
+    //float pu_weight = weight/l.sampleContainer[l.current_sample_index].weight; // contains also the smearings, not only pu
+    //l.FillTree("pu_weight",(float)pu_weight);
+       
+
+
+
+    /*   Float_t njets10=0., njets15=0., njets20=0.;
     for (Int_t i=0; i<l.jet_algoPF1_n; i++) {
 	Float_t et = ((TLorentzVector*)l.jet_algoPF1_p4->At(i))->Et();
         
@@ -2339,10 +2416,6 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
     l.FillTree("itype", (float)l.itype[l.current]);
     l.FillTree("nvtx", (float)l.vtx_std_n);
     l.FillTree("rho", (float)l.rho_algo1);
-    l.FillTree("xsec_weight", (float)l.sampleContainer[l.current_sample_index].weight());
-    l.FillTree("full_weight", (float)weight);
-    float pu_weight = weight/l.sampleContainer[l.current_sample_index].weight();
-    l.FillTree("pu_weight", (float)pu_weight);
     l.FillTree("pu_n", (float)l.pu_n);
     l.FillTree("mass", (float)mass);
     l.FillTree("dipho_pt", (float)Higgs.Pt());
@@ -2579,7 +2652,7 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
         l.FillTree("dipho_mva", (float)diphobdt_output);
         l.FillTree("dipho_mva_cat", (float)category);
         if (diphobdt_output>=bdtCategoryBoundaries.back()) computeExclusiveCategory(l,category,diphoton_index,Higgs.Pt(),Higgs.M(),diphobdt_output); 
-    }
+	}*/
 };
 
 
