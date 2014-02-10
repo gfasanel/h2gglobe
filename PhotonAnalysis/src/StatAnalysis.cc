@@ -188,7 +188,7 @@ void StatAnalysis::Init(LoopAll& l)
     nTTHlepCategories =((int)includeTTHlep);
     nTprimehadCategories =((int)includeTprimehad);//GIUSEPPE
     nTprimelepCategories =((int)includeTprimelep);//GIUSEPPE
-    nTprimehadCategories_Ht =1+((int)includeTprimehad_Ht);//GIUSEPPE Ht
+    nTprimehadCategories_Ht =2*((int)includeTprimehad_Ht);//GIUSEPPE Ht, if you want to split in Ht
     nLooseCategories =((int)includeLoose);//GIUSEPPE 
     cout<<"nLooseCategories "<<nLooseCategories<<endl;
 
