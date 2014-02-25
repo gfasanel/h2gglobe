@@ -17,8 +17,6 @@
   copyWs_noBtag_interpolated(2);//700
   copyWs_noBtag_interpolated(3);//800
   copyWs_noBtag_interpolated(4);//900
-  //  copyWs_noBtag_interpolated(5);
-  //  copyWs_noBtag_interpolated(6);
   gROOT->ProcessLine(".q");
 
 }
