@@ -70,33 +70,27 @@ copyWs_noBtag_interpolated(i){
 
   /*************SYSTEMATICS**************/
 
-  RooWorkspace* cms_hgg_workspace_noBtag=(RooWorkspace*) _file0->Get("cms_hgg_workspace");//Perche' era _file1 (?)
+  RooWorkspace* cms_hgg_workspace_noBtag=(RooWorkspace*) _file0->Get("cms_hgg_workspace");
   RooDataHist* roohist_125_tth_syst_down[6];
   TH1F* histo_125_tth_syst_down[6];
   RooDataHist* roohist_125_tth_syst_up[6];
   TH1F* histo_125_tth_syst_up[6];
 
   RooDataHist* roohist_125_tth_syst_down[0]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_E_resDown01_sigma");
-  //  cout<<"histo_125 syst"<<roohist_125_tth_syst_down[0]->Print();
   histo_125_tth_syst_down[0]=(TH1F*)roohist_125_tth_syst_down[0]->createHistogram("CMS_hgg_mass");
-  //  float norm_125_tth_syst_down=histo_125_tth_syst_down->Integral();
-  //  float ratio=norm_125_tth_syst_down/norm_125_tth;
   histo_125_tth_syst_down[0]->Scale(norm_120_tprime/norm_125_tth);
-  //  histo_125_tth_syst_down->Draw("samehist");
   RooDataHist sig_tprime_mass_m125_E_resDown01_sigma(name_tprime_final+"_E_resDown01_sigma",name_tprime_final+"_E_resDown01_sigma",mass,histo_125_tth_syst_down[0]);
   newWs->import(sig_tprime_mass_m125_E_resDown01_sigma);
 
 
 
   RooDataHist* roohist_125_tth_syst_up[0]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_E_resUp01_sigma");
-  //  cout<<"histo_125 syst"<<roohist_125_tth_syst_up[0]->Print();
   histo_125_tth_syst_up[0]=(TH1F*)roohist_125_tth_syst_up[0]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_up[0]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_E_resUp01_sigma(name_tprime_final+"_E_resUp01_sigma",name_tprime_final+"_E_resUp01_sigma",mass,histo_125_tth_syst_up[0]);
   newWs->import(sig_tprime_mass_m125_E_resUp01_sigma);
 
   RooDataHist* roohist_125_tth_syst_down[1]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_E_scaleDown01_sigma");
-  //cout<<"histo syst"<<roohist_125_tth_syst_down[1]->Print();
   histo_125_tth_syst_down[1]=(TH1F*)roohist_125_tth_syst_down[1]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_down[1]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_E_scaleDown01_sigma(name_tprime_final+"_E_scaleDown01_sigma",name_tprime_final+"_E_scaleDown01_sigma",mass,histo_125_tth_syst_down[1]);
@@ -104,14 +98,12 @@ copyWs_noBtag_interpolated(i){
 
 
   RooDataHist* roohist_125_tth_syst_up[1]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_E_scaleUp01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_up[1]->Print();
   histo_125_tth_syst_up[1]=(TH1F*)roohist_125_tth_syst_up[1]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_up[1]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_E_scaleUp01_sigma(name_tprime_final+"_E_scaleUp01_sigma",name_tprime_final+"_E_scaleUp01_sigma",mass,histo_125_tth_syst_up[1]);
   newWs->import(sig_tprime_mass_m125_E_scaleUp01_sigma);
 
   RooDataHist* roohist_125_tth_syst_down[2]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_idEffDown01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_down[2]->Print();
   histo_125_tth_syst_down[2]=(TH1F*)roohist_125_tth_syst_down[2]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_down[2]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_idEffDown01_sigma(name_tprime_final+"_idEffDown01_sigma",name_tprime_final+"_idEffDown01_sigma",mass,histo_125_tth_syst_down[2]);
@@ -126,7 +118,6 @@ copyWs_noBtag_interpolated(i){
   newWs->import(sig_tprime_mass_m125_idEffUp01_sigma);
 
   RooDataHist* roohist_125_tth_syst_down[3]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_r9EffDown01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_down[3]->Print();
   histo_125_tth_syst_down[3]=(TH1F*)roohist_125_tth_syst_down[3]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_down[3]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_r9EffDown01_sigma(name_tprime_final+"_r9EffDown01_sigma",name_tprime_final+"_r9EffDown01_sigma",mass,histo_125_tth_syst_down[3]);
@@ -141,7 +132,6 @@ copyWs_noBtag_interpolated(i){
   newWs->import(sig_tprime_mass_m125_r9EffUp01_sigma);
 
   RooDataHist* roohist_125_tth_syst_down[4]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_triggerEffDown01_sigma");
-  //cout<<"histo syst"<<roohist_125_tth_syst_down[4]->Print();
   histo_125_tth_syst_down[4]=(TH1F*)roohist_125_tth_syst_down[4]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_down[4]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_triggerEffDown01_sigma(name_tprime_final+"_triggerEffDown01_sigma",name_tprime_final+"_triggerEffDown01_sigma",mass,histo_125_tth_syst_down[4]);
@@ -149,14 +139,12 @@ copyWs_noBtag_interpolated(i){
 
 
   RooDataHist* roohist_125_tth_syst_up[4]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_triggerEffUp01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_up[4]->Print();
   histo_125_tth_syst_up[4]=(TH1F*)roohist_125_tth_syst_up[4]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_up[4]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_triggerEffUp01_sigma(name_tprime_final+"_triggerEffUp01_sigma",name_tprime_final+"_triggerEffUp01_sigma",mass,histo_125_tth_syst_up[4]);
   newWs->import(sig_tprime_mass_m125_triggerEffUp01_sigma);
 
   RooDataHist* roohist_125_tth_syst_down[5]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_vtxEffDown01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_down[5]->Print();
   histo_125_tth_syst_down[5]=(TH1F*)roohist_125_tth_syst_down[5]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_down[5]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_vtxEffDown01_sigma(name_tprime_final+"_vtxEffDown01_sigma",name_tprime_final+"_vtxEffDown01_sigma",mass,histo_125_tth_syst_down[5]);
@@ -164,26 +152,108 @@ copyWs_noBtag_interpolated(i){
 
 
   RooDataHist* roohist_125_tth_syst_up[5]=(RooDataHist*)cms_hgg_workspace_noBtag->data(name_tth+"_vtxEffUp01_sigma");
-  //cout<<"histo_125 syst"<<roohist_125_tth_syst_up[5]->Print();
   histo_125_tth_syst_up[5]=(TH1F*)roohist_125_tth_syst_up[5]->createHistogram("CMS_hgg_mass");
   histo_125_tth_syst_up[5]->Scale(norm_120_tprime/norm_125_tth);
   RooDataHist sig_tprime_mass_m125_vtxEffUp01_sigma(name_tprime_final+"_vtxEffUp01_sigma",name_tprime_final+"_vtxEffUp01_sigma",mass,histo_125_tth_syst_up[5]);
   newWs->import(sig_tprime_mass_m125_vtxEffUp01_sigma);
   
   if(masses[i]=="500" && Cat[k]=="cat6" && THY[decay]=="Tprime"){
-    TFile*  f=TFile::Open("Tprime_ws_rescaled/histo_fasanel.root","recreate");
+    TFile*  f=TFile::Open("Tprime_ws_rescaled_new/histo_fasanel.root","recreate");
     histo_125_tth->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]).c_str());
     histo_125_tth->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]).c_str());
+
+    //I also need to write the histos for syst
+    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resDown01_sigma").c_str());
+    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resDown01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleDown01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleDown01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffDown01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffDown01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
+
+    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+
     histo_125_tth->Write();
-    
+    histo_125_tth_syst_down[0]->Write();
+    histo_125_tth_syst_down[1]->Write();
+    histo_125_tth_syst_down[2]->Write();
+    histo_125_tth_syst_down[3]->Write();
+    histo_125_tth_syst_down[4]->Write();
+    histo_125_tth_syst_down[5]->Write();
+
+    histo_125_tth_syst_up[0]->Write();
+    histo_125_tth_syst_up[1]->Write();
+    histo_125_tth_syst_up[2]->Write();
+    histo_125_tth_syst_up[3]->Write();
+    histo_125_tth_syst_up[4]->Write();
+    histo_125_tth_syst_up[5]->Write();
+
+
     f->Write();
     f->Close();
   }else {
-    TFile*  f=TFile::Open("Tprime_ws_rescaled/histo_fasanel.root","update");
+    TFile*  f=TFile::Open("Tprime_ws_rescaled_new/histo_fasanel.root","update");
     histo_125_tth->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]).c_str());
     histo_125_tth->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]).c_str());
-    histo_125_tth->Write();
     
+    //I also need to write the histos for syst
+    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resDown01_sigma").c_str());
+    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resDown01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleDown01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleDown01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffDown01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffDown01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
+
+    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+
+    histo_125_tth->Write();
+    histo_125_tth_syst_down[0]->Write();
+    histo_125_tth_syst_down[1]->Write();
+    histo_125_tth_syst_down[2]->Write();
+    histo_125_tth_syst_down[3]->Write();
+    histo_125_tth_syst_down[4]->Write();
+    histo_125_tth_syst_down[5]->Write();
+
+    histo_125_tth_syst_up[0]->Write();
+    histo_125_tth_syst_up[1]->Write();
+    histo_125_tth_syst_up[2]->Write();
+    histo_125_tth_syst_up[3]->Write();
+    histo_125_tth_syst_up[4]->Write();
+    histo_125_tth_syst_up[5]->Write();
+
     f->Write();
     f->Close();
   }
@@ -192,5 +262,5 @@ copyWs_noBtag_interpolated(i){
     }//chiude il for sui decays
   }//chiude il for sulle categorie
 
-  newWs->writeToFile(("Tprime_ws_rescaled/CMS-HGG_fasanel_"+masses[i]+"scaled.root").c_str(),1);
+  newWs->writeToFile(("Tprime_ws_rescaled_new/CMS-HGG_fasanel_"+masses[i]+"scaled.root").c_str(),1);
 }//chiude la macro
