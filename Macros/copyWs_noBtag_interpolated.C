@@ -176,18 +176,18 @@ copyWs_noBtag_interpolated(i){
     histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
     histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
 
-    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
-    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
-    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
-    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
-    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
-    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
-    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_up[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_up[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_up[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_up[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_up[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_up[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
 
     histo_125_tth->Write();
     histo_125_tth_syst_down[0]->Write();
@@ -226,18 +226,18 @@ copyWs_noBtag_interpolated(i){
     histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
     histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffDown01_sigma").c_str());
 
-    histo_125_tth_syst_down[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
-    histo_125_tth_syst_down[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
-    histo_125_tth_syst_down[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
-    histo_125_tth_syst_down[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
-    histo_125_tth_syst_down[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
-    histo_125_tth_syst_down[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
-    histo_125_tth_syst_down[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
-    histo_125_tth_syst_down[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[0]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_up[0]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_resUp01_sigma").c_str());
+    histo_125_tth_syst_up[1]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_up[1]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_E_scaleUp01_sigma").c_str());
+    histo_125_tth_syst_up[2]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[2]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_idEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[3]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_up[3]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_r9EffUp01_sigma").c_str());
+    histo_125_tth_syst_up[4]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[4]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_triggerEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[5]->SetName(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
+    histo_125_tth_syst_up[5]->SetTitle(("th1f_sig_"+THY[decay]+"M"+masses[i]+"_mass_m125.6_"+Cat[k]+"_vtxEffUp01_sigma").c_str());
 
     histo_125_tth->Write();
     histo_125_tth_syst_down[0]->Write();
