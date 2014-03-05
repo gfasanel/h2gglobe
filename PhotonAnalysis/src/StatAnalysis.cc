@@ -914,9 +914,7 @@ bool StatAnalysis::Analysis(LoopAll& l, Int_t jentry)
                     AccumulateSyst( cur_type, syst_mass, syst_diphotonMVA, syst_category, syst_weight,
                             mass_errors, mva_errors, categories, weights);
                 }
-		cout<<"A16"<<endl;
                 FillRooContainerSyst(l, (*si)->name(), cur_type, mass_errors, mva_errors, categories, weights, diphoton_id);
-		cout<<"A17"<<endl;
             }
         }
 	
@@ -1151,8 +1149,8 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             for(int i=0;i<1919;i++){//sono salvate le prime 1919 generate
 		if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
 	    }
-            diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0,4,false, &smeared_pho_energy[0], true);
-	    //diphotonLoose_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33, 25,4,false, &smeared_pho_energy[0], true);
+            //diphotonLoose_id = l.DiphotonCiCSelection(l.phoNOCUTS, l.phoNOCUTS, 0, 0,4,false, &smeared_pho_energy[0], true);
+	    diphotonLoose_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33, 25,4,false, &smeared_pho_energy[0], true);
             if((counter_photons_higgs==2||isData_ttH==1) && diphotonLoose_id!=-1){
                 Looseevent = true;                                                                                                       
             }
@@ -1161,16 +1159,10 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         if(includeTprimehad_Ht){
             int counter_photons_higgs=0;
             for(int i=0;i<1919;i++){
-		//cout<<"Dentro il filtro sul numero di fotoni"<<endl;
-		//		cout<<"pdgid"<<l.gp_pdgid[i]<<endl;
-		//cout<<"status"<<l.gp_status[i]<<endl;
-		//cout<<"mother"<<l.gp_pdgid[l.gp_mother[i]]<<endl;
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
 	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
-	    //	    cout<<"isData_ttH "<<isData_ttH<<endl;
 	    if((counter_photons_higgs==2||isData_ttH==1)){
-		//cout<<"entra in Tprime hadronic tag"<<endl;
                     Tprimehadevent_lowHt = TprimehadronicTag2012_lowHt(l, diphotonTprimehad_id_lowHt, &smeared_pho_energy[0]);
                     Tprimehadevent_highHt = TprimehadronicTag2012_highHt(l, diphotonTprimehad_id_highHt, &smeared_pho_energy[0]);
 	    }
@@ -1178,36 +1170,23 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         if(includeTprimehad){
             int counter_photons_higgs=0;
             for(int i=0;i<1919;i++){
-		//cout<<"Dentro il filtro sul numero di fotoni"<<endl;
-		//		cout<<"pdgid"<<l.gp_pdgid[i]<<endl;
-		//cout<<"status"<<l.gp_status[i]<<endl;
-		//cout<<"mother"<<l.gp_pdgid[l.gp_mother[i]]<<endl;
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
 	    //diphotonTprimehad_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimehadCut, subleadEtTprimehadCut, 4,false, &smeare_pho_energy[0], true); => in PhotonAnalysis
-	    //	    cout<<"isData_ttH "<<isData_ttH<<endl;
 	    if((counter_photons_higgs==2||isData_ttH==1)){
-		//cout<<"entra in Tprime hadronic tag"<<endl;
                     Tprimehadevent = TprimehadronicTag2012(l, diphotonTprimehad_id, &smeared_pho_energy[0]);
-	    }
+		    }
         }
 	if(includeTprimelep){
             int counter_photons_higgs=0;
             for(int i=0;i<1919;i++){
                 if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){counter_photons_higgs++;}
             }
-	    //cout<<"isData_ttH "<<isData_ttH<<endl;
 	    //diphotonTprimelep_id = l.DiphotonCiCSelection(l.phoSUPERTIGHT, l.phoSUPERTIGHT, leadEtTprimelepCut, subleadEtTprimelepCut, 4,false, &smeared \
 		//					  _pho_energy[0], true);=> in PhotonAnalysis
 		if((counter_photons_higgs==2||isData_ttH==1)){
-		    //    cout<<"entra in Tprime leptonic tag"<<endl;
 		Tprimelepevent = TprimeleptonicTag2012(l, diphotonTprimelep_id, &smeared_pho_energy[0]);
-
-		//if(Tprimelepevent){
-                        //                      std::cout<<diphotonTprimelep_id<<" "<<l.diphoton_id_lep<<"||";                                               
-		//      if(l.diphoton_id_lep != -1)diphotonTprimelep_id=l.diphoton_id_lep;
-		//  }
-	    }
+		}
         }
 	/*GIUSEPPE*/
 
@@ -1330,11 +1309,18 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             l.FillCounter( "Smeared", evweight );
             sumaccept += weight;
             sumsmear += evweight;
-            fillControlPlots(lead_p4, sublead_p4, Higgs, lead_r9, sublead_r9, diphoton_id,
-                    category, isCorrectVertex, evweight, vtx, l, muVtx, mu_ind, elVtx, el_ind );
+	    //This makes histograms
+            //fillControlPlots(lead_p4, sublead_p4, Higgs, lead_r9, sublead_r9, diphoton_id,
+	    //      category, isCorrectVertex, evweight, vtx, l, muVtx, mu_ind, elVtx, el_ind );
 
-            if (fillOptTree) {
-		cout<<"Sta per fillare OpTree"<<endl;
+            if (fillOptTree && (category==6 || category==7)) {//I want to fill my tree only for Tprime categories
+
+		//if(category!=6 && category!=7){
+		//  cout<<"wrong category "<<category<<endl;
+		//}
+		cout<<"category "<<category<<endl;
+		cout<<"(int) category "<<(int)category<<endl;
+
                 fillOpTree(l, lead_p4, sublead_p4, -2, diphoton_index, diphoton_id, -2, -2, weight, 
                         mass, -1, -1, Higgs, -2, category, VBFevent, myVBF_Mjj, myVBFLeadJPt, 
                         myVBFSubJPt, nVBFDijetJetCategories, isSyst, "no-syst");
@@ -2294,14 +2280,6 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
         Float_t myVBFSubJPt, Int_t nVBFDijetJetCategories, bool isSyst, std::string name1) {
 
     //TREE DI CONTROLLO
-    cout<<"Sta fillando l'opTree"<<endl;
-    
-    /*int vbfcat=-1;
-    if(VBFevent){
-        vbfcat=l.DijetSubCategory(myVBF_Mjj,myVBFLeadJPt,myVBFSubJPt,nVBFDijetJetCategories);
-	}*/
-
-    //Salvo le informazioni di generatore per i fotoni generati
     Float_t Pt1_gen,Eta1_gen,Phi1_gen,Pt2_gen,Eta2_gen,Phi2_gen,deltaRGamma1Gamma2_gen;
     TLorentzVector* my_phot1;
     TLorentzVector* my_phot2;
@@ -2310,6 +2288,8 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
     photon_number2=0;
     int number_photon=0;
 
+    //It counts the number of generated photons
+    if(isData_ttH!=1){//only for Tprime I need this
     for(int i=0;i<1919;i++){
 	if(l.gp_pdgid[i]==22 && l.gp_status[i]==3 && l.gp_pdgid[l.gp_mother[i]]==25){
 	    if(photon_number1==0){
@@ -2320,7 +2300,11 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
 	    number_photon++;
 	}
     }
+    }else{//tth sample has always 2 photons
+	number_photon==2;
+    }
 
+    if(isData_ttH!=1){//in case of Tprime
     //swap photons, if necessary
     //    if(number_photon==2){
     Pt1_gen = ((TLorentzVector*)l.gp_p4->At(photon_number1))->Pt();
@@ -2340,21 +2324,231 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
     my_phot1 = (TLorentzVector*)l.gp_p4->At(photon_number1);
     my_phot2 = (TLorentzVector*)l.gp_p4->At(photon_number2);
     deltaRGamma1Gamma2_gen = my_phot1->DeltaR(*my_phot2);
+    }
 
+    //IMPLEMENTING isleptonic
+
+    int isLep_mu=0;
+    int isLep_ele=0;
+    int el_ind=-1;
+    int mu_ind=-1;
+
+    float myptcut=20.;
+    int elInd = l.ElectronSelectionMVA2012(myptcut);
+    int muonInd = l.MuonSelection2012B(myptcut);
+    
+    if(category==6){    
+    TLorentzVector* el_tag;
+    TLorentzVector* mu_tag;
+    
+    bool passElePhotonCuts=false;
+    bool passMuPhotonCuts=false;
+    
+    if(elInd != -1){
+	el_tag = (TLorentzVector*) l.el_std_p4->At(elInd);
+    }
+    
+    int elVtx=-1;
+    std::vector<bool> veto_indices;
+    veto_indices.clear();
+    
+    if(elInd!=-1) {
+	
+	TLorentzVector* myel = (TLorentzVector*) l.el_std_p4->At(elInd);
+	TLorentzVector* myelsc = (TLorentzVector*) l.el_std_sc->At(elInd);
+	
+	float drtoveto = 0.5;
+	float drgsftoveto = 1.;
+	
+	l.PhotonsToVeto(myelsc, drtoveto,veto_indices, true, drgsftoveto);
+	elVtx=l.FindElectronVertex(elInd);
+	
+	// need to check again for d0 and dZ (couldn't before because we didn't have the vertex)                                                             
+	if(!(l.ElectronMVACuts(elInd, elVtx)))elInd=-1;
+	if(elInd>-1)passElePhotonCuts=true;
+    }
+    
+	TLorentzVector lead= l.get_pho_p4( l.dipho_leadind[diphoton_id], l.dipho_vtxind[diphoton_id], &smeared_pho_energy[0]);
+        TLorentzVector sublead= l.get_pho_p4( l.dipho_subleadind[diphoton_id], l.dipho_vtxind[diphoton_id], &smeared_pho_energy[0]);
+	if(muonInd != -1){
+        mu_tag= (TLorentzVector*) l.mu_glo_p4->At(muonInd);
+        passMuPhotonCuts=l.MuonPhotonCuts2012B(lead, sublead, mu_tag,0.5);
+	}
+	
+	
+    if(muonInd != -1 && elInd==-1){
+        if(passMuPhotonCuts){
+            isLep_mu=1;
+            mu_ind=muonInd;
+            el_ind=-1;
+        }
+    }
+    if(elInd !=- 1 && muonInd ==-1){
+        if(passElePhotonCuts){
+            isLep_ele=1;
+            el_ind=elInd;
+            mu_ind=-1;
+        }
+    }
+    
+    if(muonInd != -1 && elInd != -1){
+	if(passMuPhotonCuts && passElePhotonCuts){
+            if(el_tag->Pt()<mu_tag->Pt()){
+                isLep_mu=1;
+                mu_ind=muonInd;
+                el_ind=-1;
+            }else{
+                isLep_ele=1;
+                el_ind=elInd;
+                mu_ind=-1;
+            }
+        }else if(passMuPhotonCuts && !passElePhotonCuts){
+            isLep_mu=1;
+            mu_ind=muonInd;
+            el_ind=-1;
+        }else if(passElePhotonCuts && !passMuPhotonCuts){
+            isLep_ele=1;
+            el_ind=elInd;
+            mu_ind=-1;
+        }
+    }
+    }
+
+    int isLeptonic=0;
+    if(isLep_ele||isLep_mu){
+	isLeptonic=1;
+    }else {
+	isLeptonic=0;
+    }
+    //isleptonic ok now
+    
+
+    //Filling tree
+    l.FillTree("isleptonic",isLeptonic);
+    l.FillTree("isLep_ele",isLep_ele);
+    l.FillTree("isLep_mu",isLep_mu);
     l.FillTree("category", (int)category);
-    l.FillTree("Pt1_gen",my_phot1->Pt());
-    l.FillTree("Eta1_gen",my_phot1->Eta());
-    l.FillTree("Phi1_gen",my_phot1->Phi());
-    l.FillTree("Pt2_gen",my_phot2->Pt());
-    l.FillTree("Eta2_gen",my_phot2->Eta());
-    l.FillTree("Phi2_gen",my_phot2->Phi());
-    l.FillTree("deltaRGamma1Gamma2_gen",deltaRGamma1Gamma2_gen);
-    l.FillTree("number_photon",number_photon);
-    l.FillTree("mass", (float)mass);
-    l.FillTree("pt1", (float)lead_p4.Pt());
-    l.FillTree("pt2", (float)sublead_p4.Pt());
+    if(isData_ttH!=1){//in case of Tprime
+	l.FillTree("Pt1_gen",(float)my_phot1->Pt());
+	l.FillTree("Eta1_gen",(float)my_phot1->Eta());
+	l.FillTree("Phi1_gen",(float)my_phot1->Phi());
+	l.FillTree("Pt2_gen",(float)my_phot2->Pt());
+	l.FillTree("Eta2_gen",(float)my_phot2->Eta());
+	l.FillTree("Phi2_gen",(float)my_phot2->Phi());
+	l.FillTree("deltaRGamma1Gamma2_gen",deltaRGamma1Gamma2_gen);
+    }else{//in case of data or TTH
+	Pt1_gen=Eta1_gen=Phi1_gen=Pt2_gen=Eta2_gen=Phi2_gen=deltaRGamma1Gamma2_gen=0;
+	l.FillTree("Pt1_gen",(float)Pt1_gen);
+	l.FillTree("Eta1_gen",(float)Eta1_gen);
+	l.FillTree("Phi1_gen",(float)Phi1_gen);
+	l.FillTree("Pt2_gen",(float)Pt2_gen);
+	l.FillTree("Eta2_gen",(float)Eta2_gen);
+	l.FillTree("Phi2_gen",(float)Phi2_gen);
+	l.FillTree("deltaRGamma1Gamma2_gen",deltaRGamma1Gamma2_gen);
+    }
 
+    l.FillTree("number_photon",number_photon);
+    l.FillTree("weight",(float)weight);
+    l.FillTree("eventWeight", (float)weight);//just because in my Optimization weight is called eventWeight
+
+    l.FillTree("mgg",mass);
+    l.FillTree("ptgg", (float)Higgs.Pt());
+    l.FillTree("ptPhot1", (float)lead_p4.Pt());
+    l.FillTree("ptPhot2", (float)sublead_p4.Pt());
+    l.FillTree("etaPhot1", (float)lead_p4.Eta());
+    l.FillTree("etaPhot2", (float)sublead_p4.Eta());
+    l.FillTree("epfMet", (float)l.shiftMET_pt);
+    //l.FillTree("MET_phi", (float)l.shiftMET_phi);
+
+    TLorentzVector* lep;
+    if(isLep_ele){
+        lep= (TLorentzVector*) l.el_std_p4->At(elInd);
+    }else if(isLep_mu){
+        lep= (TLorentzVector*)l.mu_glo_p4->At(muonInd);
+	}
+    float ptlep=-1.;
+    if(isLep_ele||isLep_mu)ptlep=lep->Pt();
+    l.FillTree("ptlep1",(float)ptlep);
+
+    //JETS AND HT IMPLEMENTAION
+    int njets=0;
+    int njets_btagloose=0;
+    int njets_btagmedium=0;
+    float Ht_total=0;
+    float Ht_t=0;
+    float Ht_phot_t=0;
     int isleptonic=0;
+
+    if(isLep_ele ||isLep_mu) Ht_total+=lep->Pt();
+
+    static std::vector<unsigned char> id_flags;
+    bool *jetid_flags=0;
+    if( jetid_flags == 0 ) {
+        switchJetIdVertex( l, l.dipho_vtxind[diphoton_id] );
+        id_flags.resize(l.jet_algoPF1_n);
+	for(int ijet=0; ijet<l.jet_algoPF1_n; ++ijet ) {
+            id_flags[ijet] = PileupJetIdentifier::passJetId(l.jet_algoPF1_cutbased_wp_level[ijet], PileupJetIdentifier::kLoose);
+	}
+
+        jetid_flags = (bool*)&id_flags[0];
+    }
+
+
+
+    for(int ii=0; ii<l.jet_algoPF1_n; ++ii) {
+
+        TLorentzVector * p4_jet = (TLorentzVector *) l.jet_algoPF1_p4->At(ii);
+	if(jetid_flags != 0 && !jetid_flags[ii]) continue;
+        if(fabs(p4_jet->Eta()) > 2.4) continue;
+        bool isJet_LeadPho = false;
+        bool isJet_SubLeadPho = false;
+        bool isJet_Lep=false;
+
+	double dR_jet_PhoLead = p4_jet->DeltaR(lead_p4);
+        if( dR_jet_PhoLead<0.5 ) isJet_LeadPho = true;
+
+        double dR_jet_PhoSubLead = p4_jet->DeltaR(sublead_p4);
+        if( dR_jet_PhoSubLead<0.5 ) isJet_SubLeadPho = true;
+
+        double dr_jet_lep=100;
+        if(isLep_ele || isLep_mu) dr_jet_lep=  p4_jet->DeltaR(*lep);
+
+        if(dr_jet_lep<0.5) isJet_Lep = true;
+
+        if( isJet_LeadPho || isJet_SubLeadPho || isJet_Lep ) continue;
+
+        if(p4_jet->Pt()<25.) continue;
+
+        njets++;
+        Ht_total+=p4_jet->Pt();
+	Ht_t+=p4_jet->Pt();
+        if(l.jet_algoPF1_csvBtag[ii]>0.244)njets_btagloose++;
+        if(l.jet_algoPF1_csvBtag[ii]>0.679)njets_btagmedium++;
+
+        if(PADEBUG)
+	    std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium "<<njets_btagmedium<<std::endl;
+
+    }
+
+    Ht_phot_t+=lead_p4.Pt();
+    Ht_phot_t+=sublead_p4.Pt();
+
+    Ht_total+=lead_p4.Pt();
+    Ht_total+=sublead_p4.Pt();
+
+    //l.njets=njets;
+
+    l.FillTree("njets",(int)njets);
+    l.FillTree("nbjets_loose",(int)njets_btagloose);
+    l.FillTree("nbjets_medium",(int)njets_btagmedium);
+    l.FillTree("Ht_total",(float)Ht_total);
+    l.FillTree("Ht_t",(float)Ht_t);
+    l.FillTree("Ht_phot_t",(float)Ht_phot_t);
+
+
+    //
+    //My previous (bad) isleptonic
+    /* int isleptonic=0;
     float myptcut=20.;
     int elInd = l.ElectronSelectionMVA2012(myptcut);
     int muonInd = l.MuonSelection2012B(myptcut);
@@ -2362,9 +2556,8 @@ void StatAnalysis::fillOpTree(LoopAll& l, const TLorentzVector & lead_p4, const 
 	isleptonic=1;
     }
 
-    l.FillTree("isleptonic",isleptonic);
+    l.FillTree("isleptonic",isleptonic);*/
 
-    l.FillTree("weight",(float)weight);
     
 
     //l.FillTree("evweight",(float)evweight);
