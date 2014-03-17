@@ -4581,10 +4581,336 @@ bool PhotonAnalysis::VHhadronicBtag2012(LoopAll& l, int& diphotonVHhadBtag_id, f
 
     return tag;
 }
-//Added two category in Ht for hadronic
+//Added two category in Ht for hadronic, 3 cat for SUSY selection as checks
 //Esiste anche una categoria Loose, ma se e' accesa il tag e' sempre true
 
 int ISLeptonic=0;
+
+//SUSY Cat
+bool PhotonAnalysis::TprimeSusy_cat1(LoopAll& l, int& diphotonSusy_Cat1_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
+
+    if(isCiC==5){
+        diphotonSusy_Cat1_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33,25, 4,false, &smeared_pho_energy[0], true);
+    }
+
+    cout<<"dentro Susy cat1"<<endl;
+    bool tag = false;
+    if(diphotonSusy_Cat1_id==-1) return tag;
+
+    static std::vector<unsigned char> id_flags;
+    if( jetid_flags == 0 ) {
+        switchJetIdVertex( l, l.dipho_vtxind[diphotonSusy_Cat1_id] );
+        id_flags.resize(l.jet_algoPF1_n);
+        for(int ijet=0; ijet<l.jet_algoPF1_n; ++ijet ) {
+            id_flags[ijet] = PileupJetIdentifier::passJetId(l.jet_algoPF1_cutbased_wp_level[ijet], PileupJetIdentifier::kLoose);
+        }
+        jetid_flags = (bool*)&id_flags[0];
+    }
+
+    //////////////////Defining Susy_cat1 selection///////////////                                                                                                 
+    float ptLead_thresh,ptSublead_thresh,ptLeadTrig_thresh,ptSubleadTrig_thresh;
+    int nbJets_loose_thresh,nbJets_medium_thresh;
+    float ptJets_thresh;
+
+    //defining Tprime variables                                                                                                                              
+    TLorentzVector lead_p4 = l.get_pho_p4( l.dipho_leadind[diphotonSusy_Cat1_id], l.dipho_vtxind[diphotonSusy_Cat1_id], &smeared_pho_energy[0]);
+    TLorentzVector sublead_p4 = l.get_pho_p4( l.dipho_subleadind[diphotonSusy_Cat1_id], l.dipho_vtxind[diphotonSusy_Cat1_id], &smeared_pho_energy[0]);
+    TLorentzVector diphoton = lead_p4+sublead_p4;
+
+
+    int njets_btagloose=0;
+    int njets_btagmedium=0;
+
+
+    //photon cuts
+    ptLead_thresh=40; //not running for SUSY
+    ptSublead_thresh=25.;//not running for SUSY
+    //ptLeadTrig_thresh=33.;
+    //ptSubleadTrig_thresh=25.;
+
+    //jet cuts                                                                                                                                               
+
+    ptJets_thresh=30; //susy
+    nbJets_loose_thresh=1;
+    nbJets_medium_thresh=1;
+
+    int loose_index,medium_index;
+
+    //jet selection
+    for(int ii=0; ii<l.jet_algoPF1_n; ++ii) {
+
+        TLorentzVector * p4_jet = (TLorentzVector *) l.jet_algoPF1_p4->At(ii);
+        if(jetid_flags != 0 && !jetid_flags[ii]) continue;
+        if(fabs(p4_jet->Eta()) > 2.4) continue;
+
+        bool isJet_LeadPho = false;
+        bool isJet_SubLeadPho = false;
+
+        double dR_jet_PhoLead = p4_jet->DeltaR(lead_p4);
+        if( dR_jet_PhoLead<0.5 ) isJet_LeadPho = true;
+
+        double dR_jet_PhoSubLead = p4_jet->DeltaR(sublead_p4);
+        if( dR_jet_PhoSubLead<0.5 ) isJet_SubLeadPho = true;
+
+        if( isJet_LeadPho || isJet_SubLeadPho ) continue;
+
+        if(p4_jet->Pt()<ptJets_thresh) continue;
+
+        if(l.jet_algoPF1_csvBtag[ii]>0.244){njets_btagloose++; loose_index=ii;}// loose_index needed for invariant mass
+        if(l.jet_algoPF1_csvBtag[ii]>0.679){njets_btagmedium++;medium_index=ii;}//medium_index needed for invariant mass
+
+        if(PADEBUG)
+            std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium "<<njets_btagmedium<<std::endl;
+    }//jet loop
+
+
+
+        cout<<"lead pt "<<lead_p4.Pt()<<endl;
+        cout<<"sublead_p4 "<<sublead_p4.Pt()<<endl;
+        cout<<"njets_btagloose "<<njets_btagloose<<endl; 
+        cout<<"njets_btagmedium "<<njets_btagmedium<<endl; 
+
+        bool isBtaggedMedium;
+        if(!removeBtagtth){
+        isBtaggedMedium=(njets_btagmedium>0);
+        }else{
+            isBtaggedMedium=true;
+        }
+
+        bool hasPassedJetSelection=(njets_btagloose>=nbJets_loose_thresh && njets_btagmedium>=nbJets_medium_thresh);
+        bool hasPassedPhotonSelection= (lead_p4.Pt()> ptLead_thresh && lead_p4.Eta()<1.4442 && sublead_p4.Pt()>ptSublead_thresh && sublead_p4.Eta()<1.4442);//susy=> both photons in barrel
+
+        cout<<"nbJets_loose_thresh "<<nbJets_loose_thresh<<endl;
+        cout<<"nbJets_medium_thresh "<<nbJets_medium_thresh<<endl;
+        cout<<"hasPassedJetSelection "<<hasPassedJetSelection<<endl;
+        cout<<"hasPassedPhotonSelection "<<hasPassedPhotonSelection<<endl;
+        cout<<"hasPassedJetSelection && hasPassedPhotonSelection "<<(hasPassedJetSelection && hasPassedPhotonSelection)<<endl;
+        //Common to all 3 susy categories
+
+        if(hasPassedJetSelection && hasPassedPhotonSelection && njets_btagloose>=2){tag=true;}
+        if(tag==true){cout<< "tag true per SUSY cat 1"<<endl;}
+        if (PADEBUG && tag==true) cout<<"tagged SUSY cat1"<<endl;
+        return tag;
+    }
+
+bool PhotonAnalysis::TprimeSusy_cat2(LoopAll& l, int& diphotonSusy_Cat2_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
+
+    if(isCiC==5){
+        diphotonSusy_Cat2_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33,25, 4,false, &smeared_pho_energy[0], true);
+    }
+
+    cout<<"dentro Susy cat1"<<endl;
+    bool tag = false;
+    if(diphotonSusy_Cat2_id==-1) return tag;
+
+    static std::vector<unsigned char> id_flags;
+    if( jetid_flags == 0 ) {
+        switchJetIdVertex( l, l.dipho_vtxind[diphotonSusy_Cat2_id] );
+        id_flags.resize(l.jet_algoPF1_n);
+        for(int ijet=0; ijet<l.jet_algoPF1_n; ++ijet ) {
+            id_flags[ijet] = PileupJetIdentifier::passJetId(l.jet_algoPF1_cutbased_wp_level[ijet], PileupJetIdentifier::kLoose);
+        }
+        jetid_flags = (bool*)&id_flags[0];
+    }
+
+    //////////////////Defining Susy_cat2 selection///////////////                                                                                                 
+    float ptLead_thresh,ptSublead_thresh,ptLeadTrig_thresh,ptSubleadTrig_thresh;
+    int nbJets_loose_thresh,nbJets_medium_thresh;
+    float ptJets_thresh;
+
+    //defining Tprime variables                                                                                                                              
+    TLorentzVector lead_p4 = l.get_pho_p4( l.dipho_leadind[diphotonSusy_Cat2_id], l.dipho_vtxind[diphotonSusy_Cat2_id], &smeared_pho_energy[0]);
+    TLorentzVector sublead_p4 = l.get_pho_p4( l.dipho_subleadind[diphotonSusy_Cat2_id], l.dipho_vtxind[diphotonSusy_Cat2_id], &smeared_pho_energy[0]);
+    TLorentzVector diphoton = lead_p4+sublead_p4;
+
+
+    int njets_btagloose=0;
+    int njets_btagmedium=0;
+
+
+    //photon cuts
+    ptLead_thresh=40; //not running for SUSY
+    ptSublead_thresh=25.;//not running for SUSY
+    //ptLeadTrig_thresh=33.;
+    //ptSubleadTrig_thresh=25.;
+
+    //jet cuts                                                                                                                                               
+
+    ptJets_thresh=30; //susy
+    nbJets_loose_thresh=1;
+    nbJets_medium_thresh=1;
+
+    int loose_index,medium_index;
+
+    //jet selection
+    for(int ii=0; ii<l.jet_algoPF1_n; ++ii) {
+
+        TLorentzVector * p4_jet = (TLorentzVector *) l.jet_algoPF1_p4->At(ii);
+        if(jetid_flags != 0 && !jetid_flags[ii]) continue;
+        if(fabs(p4_jet->Eta()) > 2.4) continue;
+
+        bool isJet_LeadPho = false;
+        bool isJet_SubLeadPho = false;
+
+        double dR_jet_PhoLead = p4_jet->DeltaR(lead_p4);
+        if( dR_jet_PhoLead<0.5 ) isJet_LeadPho = true;
+
+        double dR_jet_PhoSubLead = p4_jet->DeltaR(sublead_p4);
+        if( dR_jet_PhoSubLead<0.5 ) isJet_SubLeadPho = true;
+
+        if( isJet_LeadPho || isJet_SubLeadPho ) continue;
+
+        if(p4_jet->Pt()<ptJets_thresh) continue;
+
+        if(l.jet_algoPF1_csvBtag[ii]>0.244){njets_btagloose++; loose_index=ii;}// loose_index needed for invariant mass
+        if(l.jet_algoPF1_csvBtag[ii]>0.679){njets_btagmedium++;medium_index=ii;}//medium_index needed for invariant mass
+
+        if(PADEBUG)
+            std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium "<<njets_btagmedium<<std::endl;
+    }//jet loop
+
+
+
+        cout<<"lead pt "<<lead_p4.Pt()<<endl;
+        cout<<"sublead_p4 "<<sublead_p4.Pt()<<endl;
+        cout<<"njets_btagloose "<<njets_btagloose<<endl; 
+        cout<<"njets_btagmedium "<<njets_btagmedium<<endl; 
+
+        bool isBtaggedMedium;
+        if(!removeBtagtth){
+        isBtaggedMedium=(njets_btagmedium>0);
+        }else{
+            isBtaggedMedium=true;
+        }
+
+        bool hasPassedJetSelection=(njets_btagloose>=nbJets_loose_thresh && njets_btagmedium>=nbJets_medium_thresh);
+        bool hasPassedPhotonSelection= (lead_p4.Pt()> ptLead_thresh && lead_p4.Eta()<1.4442 && sublead_p4.Pt()>ptSublead_thresh && sublead_p4.Eta()<1.4442);//susy=> both photons in barrel
+
+        cout<<"nbJets_loose_thresh "<<nbJets_loose_thresh<<endl;
+        cout<<"nbJets_medium_thresh "<<nbJets_medium_thresh<<endl;
+        cout<<"hasPassedJetSelection "<<hasPassedJetSelection<<endl;
+        cout<<"hasPassedPhotonSelection "<<hasPassedPhotonSelection<<endl;
+        cout<<"hasPassedJetSelection && hasPassedPhotonSelection "<<(hasPassedJetSelection && hasPassedPhotonSelection)<<endl;
+        //Common to all 3 susy categories
+
+        //Cat2=> exactly 1 jet loose and 1 jet medium
+        double invbMass=0;
+        if(njets_btagloose==1 && njets_btagmedium==1){
+        TLorentzVector *bjet_loose = (TLorentzVector *) l.jet_algoPF1_p4->At(loose_index);
+        TLorentzVector *bjet_medium = (TLorentzVector *) l.jet_algoPF1_p4->At(medium_index);
+        TLorentzVector dib = *bjet_loose + *bjet_medium;
+        invbMass=dib.M();
+        }
+
+        if(hasPassedJetSelection && hasPassedPhotonSelection && invbMass>95 && invbMass<155){tag=true;}
+        if(tag==true){cout<< "tag true per SUSY cat 2"<<endl;}
+        return tag;
+    }
+
+bool PhotonAnalysis::TprimeSusy_cat3(LoopAll& l, int& diphotonSusy_Cat3_id, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
+
+    if(isCiC==5){
+        diphotonSusy_Cat3_id = l.DiphotonCiCSelection( l.phoSUPERTIGHT, l.phoSUPERTIGHT, 33,25, 4,false, &smeared_pho_energy[0], true);
+    }
+
+    cout<<"dentro Susy cat1"<<endl;
+    bool tag = false;
+    if(diphotonSusy_Cat3_id==-1) return tag;
+
+    static std::vector<unsigned char> id_flags;
+    if( jetid_flags == 0 ) {
+        switchJetIdVertex( l, l.dipho_vtxind[diphotonSusy_Cat3_id] );
+        id_flags.resize(l.jet_algoPF1_n);
+        for(int ijet=0; ijet<l.jet_algoPF1_n; ++ijet ) {
+            id_flags[ijet] = PileupJetIdentifier::passJetId(l.jet_algoPF1_cutbased_wp_level[ijet], PileupJetIdentifier::kLoose);
+        }
+        jetid_flags = (bool*)&id_flags[0];
+    }
+
+    //////////////////Defining Susy_cat3 selection///////////////                                                                                                 
+    float ptLead_thresh,ptSublead_thresh,ptLeadTrig_thresh,ptSubleadTrig_thresh;
+    int nbJets_loose_thresh,nbJets_medium_thresh;
+    float ptJets_thresh;
+
+    //defining Tprime variables                                                                                                                              
+    TLorentzVector lead_p4 = l.get_pho_p4( l.dipho_leadind[diphotonSusy_Cat3_id], l.dipho_vtxind[diphotonSusy_Cat3_id], &smeared_pho_energy[0]);
+    TLorentzVector sublead_p4 = l.get_pho_p4( l.dipho_subleadind[diphotonSusy_Cat3_id], l.dipho_vtxind[diphotonSusy_Cat3_id], &smeared_pho_energy[0]);
+    TLorentzVector diphoton = lead_p4+sublead_p4;
+
+
+    int njets_btagloose=0;
+    int njets_btagmedium=0;
+
+
+    //photon cuts
+    ptLead_thresh=40; //not running for SUSY
+    ptSublead_thresh=25.;//not running for SUSY
+    //ptLeadTrig_thresh=33.;
+    //ptSubleadTrig_thresh=25.;
+
+    //jet cuts                                                                                                                                               
+
+    ptJets_thresh=30; //susy
+    nbJets_loose_thresh=1;
+    nbJets_medium_thresh=1;
+
+    int loose_index,medium_index;
+
+    //jet selection
+    for(int ii=0; ii<l.jet_algoPF1_n; ++ii) {
+
+        TLorentzVector * p4_jet = (TLorentzVector *) l.jet_algoPF1_p4->At(ii);
+        if(jetid_flags != 0 && !jetid_flags[ii]) continue;
+        if(fabs(p4_jet->Eta()) > 2.4) continue;
+
+        bool isJet_LeadPho = false;
+        bool isJet_SubLeadPho = false;
+
+        double dR_jet_PhoLead = p4_jet->DeltaR(lead_p4);
+        if( dR_jet_PhoLead<0.5 ) isJet_LeadPho = true;
+
+        double dR_jet_PhoSubLead = p4_jet->DeltaR(sublead_p4);
+        if( dR_jet_PhoSubLead<0.5 ) isJet_SubLeadPho = true;
+
+        if( isJet_LeadPho || isJet_SubLeadPho ) continue;
+
+        if(p4_jet->Pt()<ptJets_thresh) continue;
+
+        if(l.jet_algoPF1_csvBtag[ii]>0.244){njets_btagloose++; loose_index=ii;}// loose_index needed for invariant mass
+        if(l.jet_algoPF1_csvBtag[ii]>0.679){njets_btagmedium++;medium_index=ii;}//medium_index needed for invariant mass
+
+        if(PADEBUG)
+            std::cout<<"pt: "<<p4_jet->Pt()<<" btag_loose "<<njets_btagloose<<" btag_medium "<<njets_btagmedium<<std::endl;
+    }//jet loop
+
+
+
+        cout<<"lead pt "<<lead_p4.Pt()<<endl;
+        cout<<"sublead_p4 "<<sublead_p4.Pt()<<endl;
+        cout<<"njets_btagloose "<<njets_btagloose<<endl; 
+        cout<<"njets_btagmedium "<<njets_btagmedium<<endl; 
+
+        bool isBtaggedMedium;
+        if(!removeBtagtth){
+        isBtaggedMedium=(njets_btagmedium>0);
+        }else{
+            isBtaggedMedium=true;
+        }
+
+        bool hasPassedJetSelection=(njets_btagloose>=nbJets_loose_thresh && njets_btagmedium>=nbJets_medium_thresh);
+        bool hasPassedPhotonSelection= (lead_p4.Pt()> ptLead_thresh && lead_p4.Eta()<1.4442 && sublead_p4.Pt()>ptSublead_thresh && sublead_p4.Eta()<1.4442);//susy=> both photons in barrel
+
+        cout<<"nbJets_loose_thresh "<<nbJets_loose_thresh<<endl;
+        cout<<"nbJets_medium_thresh "<<nbJets_medium_thresh<<endl;
+        cout<<"hasPassedJetSelection "<<hasPassedJetSelection<<endl;
+        cout<<"hasPassedPhotonSelection "<<hasPassedPhotonSelection<<endl;
+        cout<<"hasPassedJetSelection && hasPassedPhotonSelection "<<(hasPassedJetSelection && hasPassedPhotonSelection)<<endl;
+        //Common to all 3 susy categories
+
+        if(hasPassedJetSelection && hasPassedPhotonSelection){tag=true;}
+        if(tag==true){cout<< "tag true per SUSY cat 3"<<endl;}
+        return tag;
+    }
 
 bool PhotonAnalysis::TprimehadronicTag2012_lowHt(LoopAll& l, int& diphotonTprimehad_id_lowHt, float* smeared_pho_energy, bool *jetid_flags, bool mvaselection,bool vetodipho,bool kinonly){
     cout<<"*********************"<<endl;
